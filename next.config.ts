@@ -7,7 +7,8 @@ const nextConfig: NextConfig = {
       hostname: 'https://www.countryflags.com',
       port: '',
       pathname: '/assets/**'
-    }]
+    },
+    { protocol: "https", hostname: "utfs.io" }],
   }
 };
 

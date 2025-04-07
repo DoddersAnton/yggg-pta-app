@@ -1,53 +1,61 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/components/providers/language-provider";
+import { motion } from "framer-motion";
 import Image from "next/image";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+   const { language } = useLanguage();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+  return (
+    <div className="font-[family-name:var(--font-geist-sans)]">
+      <main className="relative h-[50vh] rounded-tl-[50%_20%] rounded-tr-[50%_20%]">
+      <section className="relative flex flex-col items-center justify-center text-center px-6 py-16 md:py-24 lg:py-32 bg-gradient-to-b from-purple-200 via-purple-100 to-white">
+      {/* Circular Image */}
+      <motion.div
+      
+      initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      className="relative w-40 h-40 md:w-56 md:h-56 lg:w-72 lg:h-72 rounded-full overflow-hidden ">
+        <Image
+          src="/pta-logo-nobg.png" // Change to your actual image
+          alt="Hero Image"
+          layout="fill"
+          objectFit="fill"
+          className="shadow-lg"
+        />
+      </motion.div>
+
+      {/* Text Content */}
+      <motion.h1 
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+      className="text-3xl md:text-5xl font-extrabold text-gray-900 mt-6">
+        {language == 'cy' ? 'Croeso i PTA' : 'Welcome to PTA'}
+      </motion.h1>
+      <motion.p
+      
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+      className="text-lg md:text-xl text-gray-600 mt-4 max-w-xl">
+        {language == 'cy' ? "Mae ein CRhA yn ymroddedig i gefnogi ein myfyrwyr a'n hathrawon a gwella'r profiad addysgol i bawb. Ar y safle hwn, fe welwch wybodaeth am ddigwyddiadau sydd ar y gweill, cyfleoedd i wirfoddoli, a ffyrdd o gymryd rhan. Gobeithio y byddwch yn ymuno â ni i wneud gwahaniaeth yng nghymuned ein hysgolion!." : "Our PTA is dedicated to supporting our students and teachers and enhancing the educational experience for all. On this site, you'll find information about upcoming events, volunteer opportunities, and ways to get involved. We hope you'll join us in making a difference in our school community"}
+      </motion.p>
+
+      {/* CTA Button */}
+      <Button className="mt-6 px-6 py-3 text-lg font-semibold">
+        Get Started
+      </Button>
+    </section>
+       
+  
+        <section className="relative w-full min-w-full bg-[#653499] shadow-lg h-[50vh] rounded-l-[50%_20%] rounded-r-[50%_20%]">
+
+        </section>
+
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
         <a
