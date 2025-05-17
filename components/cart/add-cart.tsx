@@ -6,6 +6,7 @@ import { Button } from "../ui/button"
 import { Minus, Plus } from "lucide-react"
 import { toast } from "sonner"
 import { redirect } from "next/navigation"
+import { createId } from "@paralleldrive/cuid2"
 
 
 interface ICardProps {
@@ -52,18 +53,21 @@ export default function AddCart({id, title, price, image}: ICardProps) {
         </Button>
       </div>
       <div>
-     <Button className="w-full"
-        onClick={() => {
-          toast.success(`Added event ${title} to your cart!`)
-          addToCart({
-            id: id,
-            name: title,
-            price,
-            image,
-            quantity,
-          })
-        }}
-      >
+      <Button
+    className="w-full"
+      onClick={() => {
+        toast.success(`Added ${quantity} tickets for ${title} to your cart!`)
+        addToCart({
+          id: createId(),
+          eventId: id,
+          name: title,
+          price,
+          image,
+          quantity,
+          Tickets: []
+        })
+      }}
+    >
         Add to cart
       </Button>
      </div>

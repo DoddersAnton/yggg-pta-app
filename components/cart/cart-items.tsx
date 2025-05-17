@@ -84,7 +84,7 @@ export default function CartItems() {
                         onClick={() => {
                           removeFromCart({
                             ...item,
-                            quantity: 1,
+                            quantity: -1,
                           })
                         }}
                         className="cursor-pointer hover:text-muted-foreground duration-300 transition-colors"
@@ -131,7 +131,7 @@ export default function CartItems() {
       </motion.div>
       <Button
         onClick={() => {
-          setCheckoutProgress("payment-page")
+          setCheckoutProgress("ticket-info")
         }}
         className="max-w-md w-full"
         disabled={cart.length === 0}

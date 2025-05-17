@@ -16,10 +16,19 @@ export default function CartMessage() {
       <DrawerTitle>
         {checkoutProgress === "cart-page" ? "Your Cart Items" : null}
         {checkoutProgress === "payment-page" ? "Choose a payment method" : null}
+        {checkoutProgress === "ticket-info" ? "Enter Ticket Details" : null}
         {checkoutProgress === "confirmation-page" ? "Order Confirmed" : null}
       </DrawerTitle>
       <DrawerDescription className="py-1">
         {checkoutProgress === "cart-page" ? "  View and edit your bag." : null}
+        {checkoutProgress === "ticket-info" ? (
+          <span
+            onClick={() => setCheckoutProgress("cart-page")}
+            className="flex items-center justify-center gap-1 cursor-pointer hover:text-primary"
+          >
+            <ArrowLeft size={14} /> Head back to cart
+          </span>
+        ) : null}
         {checkoutProgress === "payment-page" ? (
           <span
             onClick={() => setCheckoutProgress("cart-page")}

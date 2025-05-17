@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import { integer, pgTable, serial, timestamp, varchar,  real } from "drizzle-orm/pg-core";
 
 
@@ -33,6 +34,7 @@ export const events = pgTable("events", {
     totalAmount: real("total_amount").default(0.00), // Sum of ticket prices
     totalTickets: integer("total_tickets").default(0), // Sum of ticket quantities
     createdAt: timestamp("created_at").defaultNow(),
+    paymentIntentID: varchar("payment_intent_id", { length: 255 }), // For Stripe integration
   });
 
   export const tickets = pgTable("tickets", {
@@ -42,4 +44,28 @@ export const events = pgTable("events", {
     quantity: integer("quantity").notNull().default(1),
     price: integer("price").notNull(), // Store price at time of purchase
     createdAt: timestamp("created_at").defaultNow(),
+    ticketHolderName: varchar("ticket_holder_name", { length: 255 }), // Optional field for ticket holder name
   });
+
+  export const ordersRelations = relations(orders, ({ one, many }) => ({
+    user: one(users, {
+      fields: [orders.userId],
+      references: [users.id],
+      relationName: "user_orders",
+    }),
+    orderTickets: many(tickets, { relationName: "order_tickets" }),
+  }))
+
+  export const ticketsRelations = relations(tickets, ({ one }) => ({
+    order: one(orders, {
+      fields: [tickets.orderId],
+      references: [orders.id],
+      relationName: "order_tickets",
+    }),
+    event: one(events, {
+      fields: [tickets.eventId],
+      references: [events.id],
+      relationName: "event_tickets",
+    }),
+  }))
+

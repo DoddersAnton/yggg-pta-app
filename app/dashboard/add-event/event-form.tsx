@@ -53,6 +53,7 @@ export default function EventForm() {
   const searchParams = useSearchParams();
   const editMode = searchParams.get("id");
 
+  
   const checkEvent = async (id: number) => {
     if (editMode) {
       const data = await getEvent(id);
@@ -76,6 +77,7 @@ export default function EventForm() {
       }
     }
   };
+  
 
   useEffect(() => {
     if (editMode) {
