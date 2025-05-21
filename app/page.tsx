@@ -4,13 +4,16 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/components/providers/language-provider";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { Card } from "@/components/ui/card";
+import BorderCard from "@/components/ui/bordered-card";
+import LinkCard from "@/components/ui/link-card";
 
 export default function Home() {
    const { language } = useLanguage();
 
   return (
     <div className="font-[family-name:var(--font-geist-sans)]">
-      <main className="relative h-[50vh] rounded-tl-[50%_20%] rounded-tr-[50%_20%]">
+      <main className="relative h-[50vh]">
       <section className="relative flex flex-col items-center justify-center text-center px-6 py-16 md:py-24 lg:py-32 bg-gradient-to-b from-purple-200 via-purple-100 to-white">
       {/* Circular Image */}
       <motion.div
@@ -34,25 +37,53 @@ export default function Home() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
       className="text-3xl md:text-5xl font-extrabold text-gray-900 mt-6">
-        {language == 'cy' ? 'Croeso i PTA' : 'Welcome to PTA'}
+        {language == 'cy' ? 'Croeso i PTA' : 'Welcome to YGGG PTA'}
       </motion.h1>
       <motion.p
       
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
-      className="text-lg md:text-xl text-gray-600 mt-4 max-w-xl">
+      className="text-lg md:text-xl text-gray-600 mt-4 max-w-xl text-left">
         {language == 'cy' ? "Mae ein CRhA yn ymroddedig i gefnogi ein myfyrwyr a'n hathrawon a gwella'r profiad addysgol i bawb. Ar y safle hwn, fe welwch wybodaeth am ddigwyddiadau sydd ar y gweill, cyfleoedd i wirfoddoli, a ffyrdd o gymryd rhan. Gobeithio y byddwch yn ymuno â ni i wneud gwahaniaeth yng nghymuned ein hysgolion!." : "Our PTA is dedicated to supporting our students and teachers and enhancing the educational experience for all. On this site, you'll find information about upcoming events, volunteer opportunities, and ways to get involved. We hope you'll join us in making a difference in our school community"}
       </motion.p>
 
       {/* CTA Button */}
       <Button className="mt-6 px-6 py-3 text-lg font-semibold">
-        Get Started
+        Learn More
       </Button>
     </section>
+    <section className="h-12 w-full bg-yellow-50 opacity-50"></section>
        
   
-        <section className="relative w-full min-w-full bg-[#653499] shadow-lg h-[50vh] rounded-l-[50%_20%] rounded-r-[50%_20%]">
+        <section className=" mt-48 w-full min-w-full gap-4 h-full shadow-lg rounded-l-t-[50%_20%] rounded-r-[50%_20%] flex flex-col items-center justify-center px-6 py-16 md:py-24 lg:py-32">
+
+      <LinkCard 
+            key="1"
+            name="Get Involved"
+
+            title={language == 'cy' ? 'Cymryd rhan' : 'Get Involved'}
+            subTitle="arse"
+            content={language == 'cy' ? 'Mae croeso i chi gysylltu â ni am unrhyw gwestiynau neu sylwadau. Mae ein tîm yn hapus i helpu!' : 'Feel free to reach out to us with any questions or comments. Our team is happy to help!'}
+            img="https://images.unsplash.com/photo-1588075592446-265fd1e6e76f?q=80&w=2672&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            //im="Contact Us"
+            orientation="textRight" list={[]} signOff={""} link={""} linkUrl={""} index={0}
+       //className="w-full h-full flex items-center justify-center"
+      />
+
+       <LinkCard 
+            key="1"
+            name="Get Involved"
+
+            title={language == 'cy' ? 'Cymryd rhan' : 'Get Involved'}
+            subTitle="arse"
+            content={language == 'cy' ? 'Mae croeso i chi gysylltu â ni am unrhyw gwestiynau neu sylwadau. Mae ein tîm yn hapus i helpu!' : 'Feel free to reach out to us with any questions or comments. Our team is happy to help!'}
+            img="https://images.unsplash.com/photo-1588075592446-265fd1e6e76f?q=80&w=2672&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            //im="Contact Us"
+            orientation="textLeft" list={[]} signOff={""} link={""} linkUrl={""} index={0}
+       //className="w-full h-full flex items-center justify-center"
+      />
+      
 
         </section>
 

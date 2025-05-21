@@ -20,7 +20,7 @@ import {
   SignInButton,
   UserButton,
 } from "@clerk/nextjs";
-import ThemeToggle from "./ThemeToggle";
+
 import Logo from "./Logo";
 import {  Menu, X } from "lucide-react";
 import LanguageToggle from "./LanguageToggle";
@@ -193,6 +193,7 @@ export function Nav() {
                               <Link
                                 key={subLink.titleEng}
                                 href={subLink.href}
+                                onClick={() => setIsMobileOpen(false)}
                                 className="block text-sm font-medium hover:text-primary"
                               >
                                 {language === "cy"
@@ -228,7 +229,7 @@ export function Nav() {
               >
                 {link.subLinks.length > 0 ? (
                   <>
-                    <NavigationMenuTrigger className="hover:text-primary text-[12.5px] bg-none">
+                    <NavigationMenuTrigger className="hover:text-primary bg-none">
                       {language === "cy" ? link.titleWal : link.titleEng}
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
@@ -304,7 +305,7 @@ export function Nav() {
           <SignedIn>
             <UserButton />
           </SignedIn>
-          <ThemeToggle />
+        
           {/* Mobile Menu Toggle Button (Hidden on md+) */}
           <button
             className="md:hidden"
