@@ -27,7 +27,6 @@ export default function Home() {
           alt="Hero Image"
           layout="fill"
           objectFit="fill"
-          className="shadow-lg"
         />
       </motion.div>
 
@@ -53,10 +52,10 @@ export default function Home() {
         Learn More
       </Button>
     </section>
-    <section className="mt-48 h-12 w-full bg-yellow-50 opacity-50"></section>
+    <section className="mx-48 h-12 w-full bg-yellow-50 opacity-50"></section>
        
   
-        <section className=" mt-48 w-full min-w-full gap-4 h-full shadow-lg rounded-l-t-[50%_20%] rounded-r-[50%_20%] flex flex-col items-center justify-center px-6 py-16 md:py-24 lg:py-32">
+        <section className=" mt-48 w-full min-w-full gap-4 h-full rounded-l-t-[50%_20%] rounded-r-[50%_20%] flex flex-col items-center justify-center px-6 py-16 md:py-24 lg:py-32">
 
       <LinkCard 
             key="1"
