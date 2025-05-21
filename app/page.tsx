@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/components/providers/language-provider";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Card } from "@/components/ui/card";
-import BorderCard from "@/components/ui/bordered-card";
+
+
 import LinkCard from "@/components/ui/link-card";
 
 export default function Home() {
@@ -53,16 +53,16 @@ export default function Home() {
         Learn More
       </Button>
     </section>
-    <section className="h-12 w-full bg-yellow-50 opacity-50"></section>
+    <section className="mt-48 h-12 w-full bg-yellow-50 opacity-50"></section>
        
   
         <section className=" mt-48 w-full min-w-full gap-4 h-full shadow-lg rounded-l-t-[50%_20%] rounded-r-[50%_20%] flex flex-col items-center justify-center px-6 py-16 md:py-24 lg:py-32">
 
       <LinkCard 
             key="1"
-            name="Get Involved"
+            name="Fundraising"
 
-            title={language == 'cy' ? 'Cymryd rhan' : 'Get Involved'}
+            title={language == 'cy' ? 'Cymryd rhan' : 'Fundraising'}
             subTitle="arse"
             content={language == 'cy' ? 'Mae croeso i chi gysylltu â ni am unrhyw gwestiynau neu sylwadau. Mae ein tîm yn hapus i helpu!' : 'Feel free to reach out to us with any questions or comments. Our team is happy to help!'}
             img="https://images.unsplash.com/photo-1588075592446-265fd1e6e76f?q=80&w=2672&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -73,14 +73,27 @@ export default function Home() {
 
        <LinkCard 
             key="1"
-            name="Get Involved"
+            name="Events"
 
-            title={language == 'cy' ? 'Cymryd rhan' : 'Get Involved'}
+            title={language == 'cy' ? 'Cymryd rhan' : 'Events'}
             subTitle="arse"
             content={language == 'cy' ? 'Mae croeso i chi gysylltu â ni am unrhyw gwestiynau neu sylwadau. Mae ein tîm yn hapus i helpu!' : 'Feel free to reach out to us with any questions or comments. Our team is happy to help!'}
             img="https://images.unsplash.com/photo-1588075592446-265fd1e6e76f?q=80&w=2672&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             //im="Contact Us"
             orientation="textLeft" list={[]} signOff={""} link={""} linkUrl={""} index={0}
+       //className="w-full h-full flex items-center justify-center"
+      />
+      
+        <LinkCard 
+            key="1"
+            name="Experiences"
+
+            title={language == 'cy' ? 'Experience' : 'Experiences'}
+            subTitle="arse"
+            content={language == 'cy' ? 'Mae croeso i chi gysylltu â ni am unrhyw gwestiynau neu sylwadau. Mae ein tîm yn hapus i helpu!' : 'Feel free to reach out to us with any questions or comments. Our team is happy to help!'}
+            img="https://images.unsplash.com/photo-1588075592446-265fd1e6e76f?q=80&w=2672&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            //im="Contact Us"
+            orientation="textRight" list={[]} signOff={""} link={""} linkUrl={""} index={0}
        //className="w-full h-full flex items-center justify-center"
       />
       

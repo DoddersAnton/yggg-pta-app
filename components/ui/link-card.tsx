@@ -47,7 +47,7 @@ const InfoCard = ({
       hidden: { opacity: 0 },
     }}
   >
-    <div className="sm:w-full md:w-full  m-auto relative h-max rounded-2xl border-solid border-2 border-[#653499] bg-[#f5f5f5] p-8">
+    <div className="sm:w-full md:w-full w-full m-auto relative h-max rounded-2xl border-solid border-2 border-[#653499] bg-[#f5f5f5] p-8">
       <div className="absolute top-0 -right-[0.3rem] -z-10 w-[100%] h-[102%] rounded-[1rem] bg-[#653499]"></div>
       <div className="text-left flex-col flex justify-between items-center md:flex-col lg:flex-row lg:w-4/5 mx-auto gap-3">
         {orientation === "textLeft" && (
@@ -72,18 +72,17 @@ const InfoCard = ({
                 </motion.h1>
               </div>
 
-              <div className="text-[#653499]">
+               <div className="text-[#653499] flex flex-col gap-4 items-center justify-center">
                 <p className="md:pb-2 text-sm pb-4 text-left">{content}</p>
-
+       
                 
-                <Link href={linkUrl}>
                   <Button
-                    variant="link"
-                    className="text-[#653499] text-sm font-semibold underline"
+                    variant="outline"
+                    className="text-[#653499] text-sm font-semibold rounded-lg!"
                   >
-                    {link}{" "}
+                    {"Learn More"}{" "}
                   </Button>{" "}
-                </Link>
+      
               </div>
             </motion.div>
             <motion.div
@@ -121,7 +120,7 @@ const InfoCard = ({
                 alt="mother and son at school gates"
                 src={img}
                 className="bg-transparent h-full rounded-lg"
-                width={300}
+                width={400}
                 height={300}
               />
             </motion.div>
@@ -146,7 +145,7 @@ const InfoCard = ({
               </div>
              
 
-              <div className="text-[#653499]">
+              <div className="text-[#653499] flex flex-col gap-4 items-center justify-center">
                 <p className="md:pb-2 text-sm pb-4 text-left">{content}</p>
        
                 
