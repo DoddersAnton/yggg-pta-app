@@ -5,47 +5,37 @@ import Image from "next/image";
 import { Button } from "./button";
 
 interface Props {
-  key: string;
   name: string;
   title: string;
-  subTitle: string;
   img: string;
-
   content: string;
-  list: string[];
-  signOff: string;
   link: string;
   linkUrl: string;
-  //ref: React.RefObject<HTMLDivElement>;
-  index: number;
   orientation: string;
 }
 
 const InfoCard = ({
-  key,
   title,
-  subTitle,
-  content,
-  signOff,
-  link,
-  linkUrl,
+  content,  
   img,
-
   name,
   orientation,
+  link, 
+  linkUrl
 }: Props) => (
   <motion.section
     //id={name}
-    id={key}
+    id={name}
     className="-scroll-mt-[100px]"
     initial="hidden"
-    whileInView="visible"
+    whileInView={{ opacity: 1, x: 0 }}
     viewport={{ once: false }}
     transition={{ duration: 0.8 }}
     variants={{
       visible: { opacity: 1 },
       hidden: { opacity: 0 },
     }}
+    
   >
     <div className="sm:w-full md:w-full w-full m-auto relative h-max rounded-2xl border-solid border-2 border-[#653499] bg-[#f5f5f5] p-8">
       <div className="absolute top-0 -right-[0.3rem] -z-10 w-[100%] h-[102%] rounded-[1rem] bg-[#653499]"></div>
@@ -75,13 +65,14 @@ const InfoCard = ({
                <div className="text-[#653499] flex flex-col gap-4 items-center justify-center">
                 <p className="md:pb-2 text-sm pb-4 text-left">{content}</p>
        
-                
+                 <Link href={linkUrl}>
                   <Button
                     variant="outline"
                     className="text-[#653499] text-sm font-semibold"
                   >
-                    {"Learn More"}{" "}
+                    {link}{" "}
                   </Button>{" "}
+                  </Link>
       
               </div>
             </motion.div>
@@ -147,13 +138,14 @@ const InfoCard = ({
               <div className="text-[#653499] flex flex-col gap-4 items-center justify-center">
                 <p className="md:pb-2 text-sm pb-4 text-left">{content}</p>
        
-                
+                <Link href={linkUrl}>
                   <Button
                     variant="outline"
                     className="text-[#653499] text-sm font-semibold rounded-lg!"
                   >
-                    {"Learn More"}{" "}
+                    {link}{" "}
                   </Button>{" "}
+                  </Link>
       
               </div>
             </motion.div>
