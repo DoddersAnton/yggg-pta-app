@@ -50,13 +50,14 @@ export const createOrder  = actionClient
       .returning();
 
       orderTickets.map(
-        async ({ eventId, quantity, price, ticketHolderName }) => {
+        async ({ eventId, price, ticketHolderName }) => {
           await db.insert(tickets).values({
-            eventId,
+            eventId: eventId,
             orderId: order[0].id,
-            quantity,
-            price,
-            ticketHolderName,
+            quantity: 1,
+            price: price,
+            ticketHolderName: ticketHolderName,
+            createdAt: new Date(),
           })
         }
       )

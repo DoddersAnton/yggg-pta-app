@@ -10,9 +10,9 @@ const messages = [
   '🙋‍♀️ Volunteer opportunities available',
   '🏫 Help enrich our students’ school experience!',
   '📚 Learn how your money is improving the school equipment',
-  '🍎 Thank you to our samazing teachers and parents!',
+  '🍎 Thank you to our amazing teachers and parents!',
   '🎉 Check out the latest news!',
-  '💡 Find Out about the next PTA Meeting - sAll are welcome!',
+  '💡 Find Out about the next PTA Meeting - All are welcome!',
 ];
 
 export default function TicketTape() {
@@ -39,7 +39,7 @@ export default function TicketTape() {
               x: {
                 repeat: Infinity,
                 repeatType: 'loop',
-                duration: 30,
+                duration: 20,
                 ease: 'linear',
               },
             },

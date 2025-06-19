@@ -51,7 +51,7 @@ export default function PaymentForm({ totalPrice }: { totalPrice: number }) {
       setIsLoading(false)
       return
     }
-    const { data } = await createPaymentIntent({
+    const data = await createPaymentIntent({
       amount: totalPrice * 100,
       currency: "gbp",
       cart: cart.map((item) => ({
@@ -63,23 +63,47 @@ export default function PaymentForm({ totalPrice }: { totalPrice: number }) {
       })),
     })
 
+     if (data == undefined) {
+      setErrorMessage("Failed to create payment intent. Please try again.");
+      toast.error(errorMessage);
+      setIsLoading(false);
+      return;
+    }
+
+    if ("error" in (data?.data ?? {})) {
+      setErrorMessage((data.data as { error: string }).error);
+      setIsLoading(false);
+      toast.error((data.data as { error: string }).error);
+      return;
+    }
+
+      /*
     if (data?.error) {
       setErrorMessage(data.error)
       setIsLoading(false)
       toast.error(errorMessage)
-      router.push("/auth/login")
+     
       setCartOpen(false)
       return
-    }
+    }*/
 
-    if (data?.success) {
+      if (data?.data && "success" in data.data) {
+        const successData = (
+        data.data as {
+          success: {
+            paymentIntentID: string;
+            clientSecretID: string | null;
+            user: string;
+          };
+        }
+      ).success;
       const { error } = await stripe.confirmPayment({
         elements,
-        clientSecret: data.success.clientSecretID!,
+        clientSecret: successData.clientSecretID!,
         redirect: "if_required",
         confirmParams: {
           return_url: "http://localhost:3000/success",
-          receipt_email: data.success.user as string,
+          receipt_email: successData.user as string,
         },
       })
       if (error) {
@@ -91,7 +115,7 @@ export default function PaymentForm({ totalPrice }: { totalPrice: number }) {
         setIsLoading(false)
         execute({
             status: "pending",
-            paymentIntentID: data.success.paymentIntentID,
+            paymentIntentID: successData.paymentIntentID,
             total: totalPrice,
             orderTickets: cart.flatMap((item) =>
               item.Tickets.map((ticket) => ({

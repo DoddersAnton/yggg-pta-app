@@ -16,7 +16,7 @@ export default function CartProgress() {
               width:
                 checkoutProgress === "cart-page"
                   ? 0
-                  : checkoutProgress === "payment-page" ? "50%" 
+                  : checkoutProgress === "payment-page" ? "60%" 
                   : checkoutProgress === "ticket-info" ? "30%"
                   : "100%",
             }}

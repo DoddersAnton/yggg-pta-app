@@ -42,7 +42,7 @@ export const events = pgTable("events", {
     orderId: integer("order_id").notNull().references(() => orders.id, { onDelete: "cascade" }),
     eventId: integer("event_id").notNull().references(() => events.id),
     quantity: integer("quantity").notNull().default(1),
-    price: integer("price").notNull(), // Store price at time of purchase
+    price: real("price").notNull(), // Store price at time of purchase
     createdAt: timestamp("created_at").defaultNow(),
     ticketHolderName: varchar("ticket_holder_name", { length: 255 }), // Optional field for ticket holder name
   });
