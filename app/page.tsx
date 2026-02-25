@@ -86,12 +86,20 @@ export default function Home() {
 
       <section className="px-6 py-12">
         <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-5">
-          {highlights.map((item) => (
-            <article key={item.title} className="rounded-xl border bg-white p-6 shadow-sm">
+          {highlights.map((item, index) => (
+            <motion.article
+              key={item.title}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.45, delay: index * 0.15 }}
+              whileHover={{ y: -6 }}
+              className="rounded-xl border bg-white p-6 shadow-sm"
+            >
               <item.icon className="h-8 w-8 text-primary mb-3" />
               <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
               <p className="text-sm text-muted-foreground">{item.description}</p>
-            </article>
+            </motion.article>
           ))}
         </div>
       </section>
