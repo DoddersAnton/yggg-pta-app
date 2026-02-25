@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import { ThemeProvider } from "next-themes";
-import { Nav } from "@/components/nav/nav";
 import { ClerkProvider } from "@clerk/nextjs";
+import { ThemeProvider } from "next-themes";
+
+import "./globals.css";
+import { Nav } from "@/components/nav/nav";
 import { LanguageProvider } from "@/components/providers/language-provider";
 import Toaster from "@/components/ui/toaster";
 
@@ -22,32 +23,39 @@ export const metadata: Metadata = {
   description: "YGGG PTA Website",
 };
 
+function AppProviders({ children }: { children: React.ReactNode }) {
+  const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
+  if (!publishableKey) {
+    return <>{children}</>;
+  }
+
+  return <ClerkProvider publishableKey={publishableKey}>{children}</ClerkProvider>;
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <AppProviders>
       <LanguageProvider>
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-
-        <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Nav/>
-        <Toaster/>
-        {children}
-        </ThemeProvider>
-      </body>
-    </html>
-    </LanguageProvider>
-    </ClerkProvider>
+        <html lang="en" suppressHydrationWarning>
+          <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="light"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Nav />
+              <Toaster />
+              {children}
+            </ThemeProvider>
+          </body>
+        </html>
+      </LanguageProvider>
+    </AppProviders>
   );
 }
