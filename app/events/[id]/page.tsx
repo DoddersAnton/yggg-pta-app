@@ -1,10 +1,14 @@
-import { db } from "@/server";
 import EventDetail from "@/components/events/event-detail";
+import { db } from "@/server";
 
-export default async function Event({ params }: { params: Promise<{ id: number }> }) {
-    const { id } = await params; 
+export const dynamic = "force-dynamic";
 
-    console.log("Event ID:", id); // Log the event ID to the console
+type EventPageProps = {
+  params: Promise<{ id: number }>;
+};
+
+export default async function Event({ params }: EventPageProps) {
+  const { id } = await params;
 
   const data = await db.query.events.findFirst({
     where: (events, { eq }) => eq(events.id, Number(id)),
