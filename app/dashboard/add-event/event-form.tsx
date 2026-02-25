@@ -34,7 +34,7 @@ import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { getEvent } from "@/server/actions/get-event";
-import { UploadButton, UploadDropzone } from "@/app/api/uploadthing/upload";
+import { UploadDropzone } from "@/app/api/uploadthing/upload";
 
 export default function EventForm() {
   const [imgUploading, setImgUploading] = useState(false);
@@ -382,9 +382,7 @@ export default function EventForm() {
             <CardFooter className="flex justify-between">
               <Button variant="outline">Cancel</Button>
               <Button
-                disabled={
-                  status == "executing" 
-                }
+                disabled={status == "executing" || imgUploading}
                 type="submit"
               >
                 Save

@@ -11,17 +11,15 @@ import { Button } from "../ui/button"
 import { useState } from "react"
 import { useAction } from "next-safe-action/hooks"
 import { toast } from "sonner"
-import { useRouter } from "next/navigation"
 import { createOrder } from "@/server/actions/create-order"
 import { createPaymentIntent } from "@/server/actions/create-payment-intent"
 
 export default function PaymentForm({ totalPrice }: { totalPrice: number }) {
   const stripe = useStripe()
   const elements = useElements()
-  const { cart, setCheckoutProgress, clearCart, setCartOpen } = useCartStore()
+  const { cart, setCheckoutProgress, clearCart } = useCartStore()
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
-  const router = useRouter()
 
   const { execute } = useAction(createOrder, {
     onSuccess: (data) => {
