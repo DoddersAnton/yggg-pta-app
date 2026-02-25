@@ -137,6 +137,7 @@ export function Nav() {
     [key: string]: boolean;
   }>({});
   const { language } = useLanguage();
+  const clerkEnabled = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
 
   const toggleSubmenu = (key: string) => {
     setSubmenuOpen((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -297,14 +298,18 @@ export function Nav() {
         <div className="flex items-center gap-4">
           <LanguageToggle />
           <CartDrawer />
-          <SignedOut>
-            <div className="hover:text-primary text-[12.5px]">
-              <SignInButton />
-            </div>
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
+          {clerkEnabled ? (
+            <>
+              <SignedOut>
+                <div className="hover:text-primary text-[12.5px]">
+                  <SignInButton />
+                </div>
+              </SignedOut>
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
+            </>
+          ) : null}
         
           {/* Mobile Menu Toggle Button (Hidden on md+) */}
           <button
