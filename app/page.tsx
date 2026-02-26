@@ -9,29 +9,54 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/components/providers/language-provider";
 import TicketTape from "./ticket-tape";
 
-const highlights = [
-  {
-    title: "Upcoming PTA Events",
-    description:
-      "From school discos to family quiz nights, there is always something in the diary to bring families together.",
-    icon: Calendar,
-    href: "/events",
-  },
-  {
-    title: "Fundraising Goals",
-    description:
-      "We fundraise for books, playground resources, and enrichment experiences that directly support every child.",
-    icon: HandCoins,
-    href: "/fundraising",
-  },
-  {
-    title: "Community Achievements",
-    description:
-      "Thanks to volunteers and supporters, we have already funded new learning resources and memorable school activities.",
-    icon: Trophy,
-    href: "/community-achievements",
-  },
-];
+const highlights = {
+  en: [
+    {
+      title: "Upcoming PTA Events",
+      description:
+        "From school discos to family quiz nights, there is always something in the diary to bring families together.",
+      icon: Calendar,
+      href: "/events",
+    },
+    {
+      title: "Fundraising Goals",
+      description:
+        "We fundraise for books, playground resources, and enrichment experiences that directly support every child.",
+      icon: HandCoins,
+      href: "/fundraising",
+    },
+    {
+      title: "Community Achievements",
+      description:
+        "Thanks to volunteers and supporters, we have already funded new learning resources and memorable school activities.",
+      icon: Trophy,
+      href: "/community-achievements",
+    },
+  ],
+  cy: [
+    {
+      title: "Digwyddiadau CRhA i Ddod",
+      description:
+        "O ddisgos ysgol i nosweithiau cwis teuluol, mae rhywbeth bob amser yn y dyddiadur i ddod â theuluoedd ynghyd.",
+      icon: Calendar,
+      href: "/events",
+    },
+    {
+      title: "Nodau Codi Arian",
+      description:
+        "Rydym yn codi arian ar gyfer llyfrau, adnoddau maes chwarae, a phrofiadau cyfoethogi sy'n cefnogi pob plentyn yn uniongyrchol.",
+      icon: HandCoins,
+      href: "/fundraising",
+    },
+    {
+      title: "Cyflawniadau Cymunedol",
+      description:
+        "Diolch i wirfoddolwyr a chefnogwyr, rydym eisoes wedi ariannu adnoddau dysgu newydd a gweithgareddau ysgol cofiadwy.",
+      icon: Trophy,
+      href: "/community-achievements",
+    },
+  ],
+};
 
 export default function Home() {
   const { language } = useLanguage();
@@ -47,9 +72,7 @@ export default function Home() {
             className="space-y-6"
           >
             <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
-              {language === "cy"
-                ? "Croeso i CRhA YGGG"
-                : "Welcome to the YGGG PTA"}
+              {language === "cy" ? "Croeso i CRhA YGGG" : "Welcome to the YGGG PTA"}
             </h1>
             <p className="text-lg text-gray-700 max-w-2xl">
               {language === "cy"
@@ -58,10 +81,10 @@ export default function Home() {
             </p>
             <div className="flex flex-wrap gap-3">
               <Button asChild>
-                <Link href="/about">Learn more about us</Link>
+                <Link href="/about">{language === "cy" ? "Dysgu mwy amdanom" : "Learn more about us"}</Link>
               </Button>
               <Button asChild variant="outline">
-                <Link href="/about/meetthepta">Meet the PTA</Link>
+                <Link href="/about/meetthepta">{language === "cy" ? "Cwrdd â'r CRhA" : "Meet the PTA"}</Link>
               </Button>
             </div>
           </motion.div>
@@ -72,13 +95,7 @@ export default function Home() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="relative mx-auto w-60 h-60 md:w-72 md:h-72"
           >
-            <Image
-              src="/pta-logo-nobg.png"
-              alt="YGGG PTA logo"
-              fill
-              className="object-contain"
-              priority
-            />
+            <Image src="/pta-logo-nobg.png" alt="YGGG PTA logo" fill className="object-contain" priority />
           </motion.div>
         </div>
       </section>
@@ -89,7 +106,7 @@ export default function Home() {
 
       <section className="px-6 py-12">
         <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-5">
-          {highlights.map((item, index) => (
+          {highlights[language].map((item, index) => (
             <motion.article
               key={item.title}
               initial={{ opacity: 0, y: 24 }}
@@ -111,12 +128,14 @@ export default function Home() {
 
       <section className="px-6 pb-12">
         <div className="max-w-4xl mx-auto rounded-2xl bg-purple-50 border border-purple-100 p-8 text-center">
-          <h3 className="text-2xl font-bold mb-3">Get involved with the PTA</h3>
+          <h3 className="text-2xl font-bold mb-3">{language === "cy" ? "Ymunwch â'r CRhA" : "Get involved with the PTA"}</h3>
           <p className="text-gray-700 mb-5">
-            Every hour volunteered and every pound raised helps deliver meaningful experiences for pupils.
+            {language === "cy"
+              ? "Mae pob awr o wirfoddoli a phob punt a godir yn helpu i ddarparu profiadau ystyrlon i ddisgyblion."
+              : "Every hour volunteered and every pound raised helps deliver meaningful experiences for pupils."}
           </p>
           <Button asChild>
-            <Link href="/about/meetthepta">Meet our team</Link>
+            <Link href="/about/meetthepta">{language === "cy" ? "Cwrdd â'n tîm" : "Meet our team"}</Link>
           </Button>
         </div>
       </section>

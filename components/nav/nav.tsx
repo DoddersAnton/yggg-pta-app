@@ -22,11 +22,14 @@ import {
 } from "@clerk/nextjs";
 
 import Logo from "./Logo";
-import {  Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import LanguageToggle from "./LanguageToggle";
 import { useLanguage } from "../providers/language-provider";
 import Image from "next/image";
 import CartDrawer from "../cart/cart-drawer";
+
+const desktopNavLinkClass =
+  "relative bg-transparent px-2 py-1 text-[12.5px] font-medium text-foreground transition-colors hover:bg-transparent hover:text-primary focus:bg-transparent data-[state=open]:bg-transparent after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-primary after:transition-transform after:duration-200 hover:after:scale-x-100 data-[state=open]:after:scale-x-100";
 
 const navLinks: {
   titleEng: string;
@@ -58,7 +61,7 @@ const navLinks: {
         titleWal: "Ein Cenhadaeth",
         descriptionEng: "Find out more about the PTA and what we do",
         descriptionWal: "Darganfod mwy am y CRhA a beth rydym yn ei wneud",
-        href: "/about/overview",
+        href: "/about",
       },
       {
         titleEng: "Meet the PTA",
@@ -143,6 +146,11 @@ export function Nav() {
     setSubmenuOpen((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
+  const closeMobileMenu = () => {
+    setIsMobileOpen(false);
+    setSubmenuOpen({});
+  };
+
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-white/30 dark:bg-black/30 backdrop-blur-md border-b shadow-sm">
       <div className="container mx-auto flex items-center justify-between p-4">
@@ -153,70 +161,91 @@ export function Nav() {
           </Link>
         </div>
 
-        {/* Mobile Dropdown Menu */}
+        {/* Mobile Slide-in Menu */}
         <AnimatePresence>
           {isMobileOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="absolute top-full left-0 w-full bg-white dark:bg-black shadow-lg rounded-lg p-4 flex flex-col gap-2 md:hidden"
-            >
-              {navLinks.map((link) => (
-                <div key={link.titleEng} className="relative group">
-                  {link.subLinks.length > 0 ? (
-                    <div>
-                      <button
-                        onClick={() => toggleSubmenu(link.titleEng)}
-                        className="w-full text-left text-sm font-medium hover:text-primary flex items-center"
-                      >
-                        {language === "cy" ? link.titleWal : link.titleEng}
-                        <motion.span
-                          animate={{
-                            rotate: submenuOpen[link.titleEng] ? 180 : 0,
-                          }}
-                          transition={{ duration: 0.3 }}
-                          className="ml-2 text-[8px]"
-                        >
-                          ▼
-                        </motion.span>
-                      </button>
-                      <AnimatePresence>
-                        {submenuOpen[link.titleEng] && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.3, delay: 0.1 }}
-                            className="ml-4 mt-2 flex flex-col gap-2"
-                          >
-                            {link.subLinks.map((subLink) => (
-                              <Link
-                                key={subLink.titleEng}
-                                href={subLink.href}
-                                onClick={() => setIsMobileOpen(false)}
-                                className="block text-sm font-medium hover:text-primary"
-                              >
-                                {language === "cy"
-                                  ? subLink.titleWal
-                                  : subLink.titleEng}
-                              </Link>
-                            ))}
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  ) : (
-                    <Link
-                      href={link.href}
-                      className="block text-sm font-medium hover:text-primary"
-                    >
-                      {language === "cy" ? link.titleWal : link.titleEng}
-                    </Link>
-                  )}
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-40 bg-black/40 md:hidden"
+                onClick={closeMobileMenu}
+              />
+              <motion.aside
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="fixed inset-0 z-50 flex h-screen w-screen flex-col overflow-y-auto bg-white px-5 pb-6 pt-5 md:hidden"
+              >
+                <div className="mb-6 flex items-center justify-between">
+                  <Logo />
+                  <button onClick={closeMobileMenu} aria-label="Close menu">
+                    <X className="h-7 w-7" />
+                  </button>
                 </div>
-              ))}
-            </motion.div>
+
+                <div className="mb-5 flex items-center gap-2">
+                  <LanguageToggle />
+                  <div className="md:hidden">
+                    <CartDrawer />
+                  </div>
+                </div>
+
+                <nav className="flex flex-col gap-3">
+                  {navLinks.map((link) => (
+                    <div key={link.titleEng} className="rounded-xl border bg-muted/20 px-4 py-3">
+                      {link.subLinks.length > 0 ? (
+                        <div>
+                          <button
+                            onClick={() => toggleSubmenu(link.titleEng)}
+                            className="flex w-full items-center justify-between text-left text-base font-semibold leading-tight"
+                          >
+                            <span>{language === "cy" ? link.titleWal : link.titleEng}</span>
+                            <motion.span
+                              animate={{
+                                rotate: submenuOpen[link.titleEng] ? 180 : 0,
+                              }}
+                              transition={{ duration: 0.2 }}
+                              className="text-xs"
+                            >
+                              ▼
+                            </motion.span>
+                          </button>
+                          <AnimatePresence>
+                            {submenuOpen[link.titleEng] && (
+                              <motion.div
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: "auto", opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{ duration: 0.2 }}
+                                className="mt-3 ml-1 grid gap-2"
+                              >
+                                {link.subLinks.map((subLink) => (
+                                  <Link
+                                    key={subLink.titleEng}
+                                    href={subLink.href}
+                                    onClick={closeMobileMenu}
+                                    className="rounded-md px-2 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-background hover:text-primary"
+                                  >
+                                    {language === "cy" ? subLink.titleWal : subLink.titleEng}
+                                  </Link>
+                                ))}
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      ) : (
+                        <Link href={link.href} onClick={closeMobileMenu} className="block py-1 text-base font-semibold leading-tight">
+                          {language === "cy" ? link.titleWal : link.titleEng}
+                        </Link>
+                      )}
+                    </div>
+                  ))}
+                </nav>
+              </motion.aside>
+            </>
           )}
         </AnimatePresence>
 
@@ -230,7 +259,7 @@ export function Nav() {
               >
                 {link.subLinks.length > 0 ? (
                   <>
-                    <NavigationMenuTrigger className="hover:text-primary bg-none">
+                    <NavigationMenuTrigger className={desktopNavLinkClass}>
                       {language === "cy" ? link.titleWal : link.titleEng}
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
@@ -283,7 +312,7 @@ export function Nav() {
                   <NavigationMenuLink asChild>
                     <Link
                       href={link.href}
-                      className={`${navigationMenuTriggerStyle()} text-[12.5px]`}
+                      className={cn(navigationMenuTriggerStyle(), desktopNavLinkClass)}
                     >
                       {language === "cy" ? link.titleWal : link.titleEng}
                     </Link>
@@ -295,7 +324,7 @@ export function Nav() {
         </NavigationMenu>
 
         {/* Auth and Theme Toggle */}
-        <div className="flex items-center gap-4">
+        <div className="hidden items-center gap-4 md:flex">
           <LanguageToggle />
           <CartDrawer />
           {clerkEnabled ? (
@@ -311,18 +340,17 @@ export function Nav() {
             </>
           ) : null}
         
-          {/* Mobile Menu Toggle Button (Hidden on md+) */}
-          <button
-            className="md:hidden"
-            onClick={() => setIsMobileOpen(!isMobileOpen)}
-          >
-            {isMobileOpen ? (
-              <X className="h-6 w-6 p-0" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
-          </button>
         </div>
+
+        {/* Mobile Menu Toggle Button (Hidden on md+) */}
+        <button
+          className="md:hidden"
+          onClick={() => setIsMobileOpen(!isMobileOpen)}
+          aria-label="Open menu"
+          type="button"
+        >
+          <Menu className="h-6 w-6" />
+        </button>
       </div>
     </header>
   );
@@ -338,7 +366,7 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-transparent hover:text-primary focus:bg-transparent focus:text-primary",
             className
           )}
           {...props}
