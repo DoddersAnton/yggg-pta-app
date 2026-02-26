@@ -2,6 +2,7 @@ import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { MotionCard } from "@/components/ui/motion-card";
 
 const goals = [
   "Support pupil wellbeing and enrichment across the school.",
@@ -22,7 +23,7 @@ export default function AboutPage() {
       </section>
 
       <section className="max-w-5xl mx-auto mt-10 grid md:grid-cols-2 gap-6">
-        <article className="rounded-xl border bg-white p-6 shadow-sm">
+        <MotionCard>
           <h2 className="text-2xl font-semibold mb-4">Our focus</h2>
           <ul className="space-y-3">
             {goals.map((goal) => (
@@ -32,9 +33,9 @@ export default function AboutPage() {
               </li>
             ))}
           </ul>
-        </article>
+        </MotionCard>
 
-        <article className="rounded-xl border bg-purple-50 p-6 shadow-sm">
+        <MotionCard className="bg-purple-50">
           <h2 className="text-2xl font-semibold mb-3">What we have achieved</h2>
           <p className="text-gray-700 mb-5">
             Recent fundraising has helped provide classroom resources, event materials, and support for school experiences that make learning more memorable.
@@ -43,7 +44,7 @@ export default function AboutPage() {
           <Button asChild>
             <Link href="/about/meetthepta">Meet the PTA team</Link>
           </Button>
-        </article>
+        </MotionCard>
       </section>
     </main>
   );

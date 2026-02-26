@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { ArrowRight, Goal, HandHeart, Wrench } from "lucide-react";
 
+import { MotionCard } from "@/components/ui/motion-card";
+
 const priorities = [
   {
     title: "Outdoor play equipment refresh",
@@ -36,11 +38,11 @@ export default function FundraisingPage() {
 
         <section className="grid gap-5 md:grid-cols-3">
           {priorities.map((priority) => (
-            <article key={priority.title} className="rounded-xl border bg-white p-6 shadow-sm">
+            <MotionCard key={priority.title}>
               <priority.icon className="h-8 w-8 text-primary mb-3" />
               <h2 className="text-xl font-semibold mb-2">{priority.title}</h2>
               <p className="text-sm text-muted-foreground">{priority.detail}</p>
-            </article>
+            </MotionCard>
           ))}
         </section>
 

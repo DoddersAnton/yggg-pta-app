@@ -1,5 +1,7 @@
 import { CheckCircle2, PiggyBank, Sparkles } from "lucide-react";
 
+import { MotionCard } from "@/components/ui/motion-card";
+
 const achievements = [
   {
     title: "£4,200 raised for reading resources",
@@ -32,25 +34,25 @@ export default function CommunityAchievementsPage() {
 
         <section className="grid gap-5 md:grid-cols-3">
           {achievements.map((item) => (
-            <article key={item.title} className="rounded-xl border bg-white p-6 shadow-sm">
+            <MotionCard key={item.title}>
               <CheckCircle2 className="h-7 w-7 text-green-600 mb-3" />
               <h2 className="text-lg font-semibold mb-2">{item.title}</h2>
               <p className="text-sm text-muted-foreground">{item.summary}</p>
-            </article>
+            </MotionCard>
           ))}
         </section>
 
         <section className="grid gap-4 md:grid-cols-2">
-          <div className="rounded-xl border bg-purple-50 p-6">
+          <MotionCard as="div" className="bg-purple-50">
             <PiggyBank className="h-7 w-7 text-primary mb-3" />
             <h3 className="text-xl font-semibold">Total raised this year (placeholder)</h3>
             <p className="mt-2 text-gray-700">£8,850</p>
-          </div>
-          <div className="rounded-xl border bg-yellow-50 p-6">
+          </MotionCard>
+          <MotionCard as="div" className="bg-yellow-50">
             <Sparkles className="h-7 w-7 text-yellow-600 mb-3" />
             <h3 className="text-xl font-semibold">Projects delivered (placeholder)</h3>
             <p className="mt-2 text-gray-700">6 school improvement projects supported so far.</p>
-          </div>
+          </MotionCard>
         </section>
       </div>
     </main>
