@@ -30,25 +30,32 @@ export default function TicketTape() {
   return (
     <div ref={ref} className="overflow-hidden whitespace-nowrap bg-yellow-100 py-2 border-t border-b border-yellow-400">
       <motion.div
-        className="inline-block"
+        className="flex w-max"
         animate={controls}
         variants={{
           animate: {
-            x: ['0%', '-100%'],
+            x: ['0%', '-50%'],
             transition: {
               x: {
                 repeat: Infinity,
                 repeatType: 'loop',
-                duration: 20,
+                duration: 36,
                 ease: 'linear',
               },
             },
           },
         }}
       >
-        <div className="flex space-x-12 px-4">
+        <div className="flex shrink-0 space-x-12 px-4">
           {[...messages, ...messages].map((msg, i) => (
-            <span key={i} className="text-sm font-semibold uppercase tracking-wide text-yellow-800">
+            <span key={`first-${i}`} className="text-sm font-semibold uppercase tracking-wide text-yellow-800">
+              {msg}
+            </span>
+          ))}
+        </div>
+        <div className="flex shrink-0 space-x-12 px-4" aria-hidden="true">
+          {[...messages, ...messages].map((msg, i) => (
+            <span key={`second-${i}`} className="text-sm font-semibold uppercase tracking-wide text-yellow-800">
               {msg}
             </span>
           ))}

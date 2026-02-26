@@ -18,11 +18,11 @@ export default function Events({activeEvents}: Event) {
     const { language } = useLanguage();
 
     return (
-        <main className="py-12 grid sm:grid-cols-1 md:grid-cols-2 gap-12 lg:grid-cols-3">
-            <div>
+        <main className="py-4">
+            <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8 lg:grid-cols-3">
                 {activeEvents.map((event) => (
                     <Link key={event.id} href={`/events/${event.id}`} className="block">
-                        <div className="border rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 relative">
+                        <div className="border rounded-xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow duration-300 relative bg-white h-full">
                             <div className="absolute top-2 right-2 shadow-md rounded-full">
                                 {event.startDate >= new Date() && event.remainingCapacity > 0 && event.remainingCapacity > 10 ? (
                                     <Badge className="bg-green-500">Tickets Available</Badge>
