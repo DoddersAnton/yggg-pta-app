@@ -1,4 +1,5 @@
 import Events from "@/components/events/events";
+import EventsHeading from "./events-heading";
 import { db } from "@/server";
 
 export const dynamic = "force-dynamic";
