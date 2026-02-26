@@ -15,18 +15,21 @@ const highlights = [
     description:
       "From school discos to family quiz nights, there is always something in the diary to bring families together.",
     icon: Calendar,
+    href: "/events",
   },
   {
     title: "Fundraising Goals",
     description:
       "We fundraise for books, playground resources, and enrichment experiences that directly support every child.",
     icon: HandCoins,
+    href: "/fundraising",
   },
   {
     title: "Community Achievements",
     description:
       "Thanks to volunteers and supporters, we have already funded new learning resources and memorable school activities.",
     icon: Trophy,
+    href: "/community-achievements",
   },
 ];
 
@@ -34,8 +37,8 @@ export default function Home() {
   const { language } = useLanguage();
 
   return (
-    <main className="font-[family-name:var(--font-geist-sans)] pt-24 pb-12">
-      <section className="px-6 py-12 md:py-20 bg-gradient-to-b from-purple-100 via-purple-50 to-white">
+    <main className="font-[family-name:var(--font-geist-sans)] pb-12">
+      <section className="px-6 pt-28 pb-12 md:pt-32 md:pb-20 bg-gradient-to-b from-purple-100 via-purple-50 to-white">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 items-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -96,9 +99,11 @@ export default function Home() {
               whileHover={{ y: -6 }}
               className="rounded-xl border bg-white p-6 shadow-sm"
             >
-              <item.icon className="h-8 w-8 text-primary mb-3" />
-              <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
-              <p className="text-sm text-muted-foreground">{item.description}</p>
+              <Link href={item.href} className="block">
+                <item.icon className="h-8 w-8 text-primary mb-3" />
+                <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
+                <p className="text-sm text-muted-foreground">{item.description}</p>
+              </Link>
             </motion.article>
           ))}
         </div>
