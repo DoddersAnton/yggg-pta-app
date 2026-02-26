@@ -22,57 +22,57 @@ type Member = {
 
 const members: Member[] = [
   {
-    name: "Alex Morgan",
-    title: { en: "PTA Chair", cy: "Cadeirydd y CRhA" },
+    name: "Cheryl Voake-Jones",
+    title: { en: "Chair", cy: "Cadeirydd" },
     photo: "/people.png",
     bio: {
-      en: "Alex coordinates the PTA committee and leads planning for annual priorities, events, and volunteer teams.",
-      cy: "Mae Alex yn cydlynu pwyllgor y CRhA ac yn arwain cynllunio blaenoriaethau blynyddol, digwyddiadau, a thimau gwirfoddolwyr.",
+      en: "Cheryl leads the PTA committee and helps shape our school community priorities.",
+      cy: "Mae Cheryl yn arwain pwyllgor y CRhA ac yn helpu i lunio blaenoriaethau cymuned ein hysgol.",
     },
   },
   {
-    name: "Sian Roberts",
-    title: { en: "Vice Chair", cy: "Is-gadeirydd" },
-    photo: "/people.png",
-    bio: {
-      en: "Sian supports cross-year activities and helps ensure events are inclusive, welcoming, and family friendly.",
-      cy: "Mae Sian yn cefnogi gweithgareddau traws-flwyddyn ac yn helpu i sicrhau bod digwyddiadau'n gynhwysol, croesawgar, ac yn addas i deuluoedd.",
-    },
-  },
-  {
-    name: "Tom Evans",
+    name: "Anthony Dodwell",
     title: { en: "Treasurer", cy: "Trysorydd" },
     photo: "/people.png",
     bio: {
-      en: "Tom manages budgeting, tracks fundraising outcomes, and reports clearly on how funds benefit pupils.",
-      cy: "Mae Tom yn rheoli cyllidebu, yn olrhain canlyniadau codi arian, ac yn adrodd yn glir ar sut mae'r arian yn elwa disgyblion.",
+      en: "Anthony oversees budgeting and helps ensure PTA funds are used effectively for pupils.",
+      cy: "Mae Anthony yn goruchwylio cyllidebu ac yn helpu i sicrhau bod cronfeydd y CRhA yn cael eu defnyddio'n effeithiol i ddisgyblion.",
     },
   },
   {
-    name: "Megan Hughes",
+    name: "Megan Morris",
     title: { en: "Secretary", cy: "Ysgrifennydd" },
     photo: "/people.png",
     bio: {
-      en: "Megan keeps meetings organised, records action points, and helps communicate updates with the school community.",
-      cy: "Mae Megan yn trefnu cyfarfodydd, yn cofnodi pwyntiau gweithredu, ac yn helpu i gyfathrebu diweddariadau gyda chymuned yr ysgol.",
+      en: "Megan coordinates meeting notes, communication updates, and action tracking for the committee.",
+      cy: "Mae Megan yn cydlynu nodiadau cyfarfodydd, diweddariadau cyfathrebu, ac olrhain gweithredoedd ar gyfer y pwyllgor.",
     },
   },
   {
-    name: "Rhys Williams",
-    title: { en: "Events Coordinator", cy: "Cydlynydd Digwyddiadau" },
+    name: "Natasha Trotman",
+    title: { en: "Communications", cy: "Cyfathrebu" },
     photo: "/people.png",
     bio: {
-      en: "Rhys leads event logistics and works with volunteers to run successful community activities throughout the year.",
-      cy: "Mae Rhys yn arwain logisteg digwyddiadau ac yn gweithio gyda gwirfoddolwyr i gynnal gweithgareddau cymunedol llwyddiannus drwy'r flwyddyn.",
+      en: "Natasha supports PTA communications with parents, carers, and the wider school community.",
+      cy: "Mae Natasha yn cefnogi cyfathrebu'r CRhA gyda rhieni, gofalwyr, a chymuned ehangach yr ysgol.",
     },
   },
   {
-    name: "Nia Thomas",
-    title: { en: "Volunteer Lead", cy: "Arweinydd Gwirfoddolwyr" },
+    name: "Sara Maynard",
+    title: { en: "Communications", cy: "Cyfathrebu" },
     photo: "/people.png",
     bio: {
-      en: "Nia helps recruit and support parent volunteers, matching skills and availability with PTA needs.",
-      cy: "Mae Nia yn helpu i recriwtio a chefnogi gwirfoddolwyr rhieni, gan baru sgiliau ac argaeledd ag anghenion y CRhA.",
+      en: "Sara helps share PTA updates, event information, and key notices across communication channels.",
+      cy: "Mae Sara yn helpu i rannu diweddariadau CRhA, gwybodaeth digwyddiadau, a negeseuon allweddol ar draws sianeli cyfathrebu.",
+    },
+  },
+  {
+    name: "Terry",
+    title: { en: "Communications", cy: "Cyfathrebu" },
+    photo: "/people.png",
+    bio: {
+      en: "Terry contributes to PTA messaging and keeps families informed about upcoming opportunities.",
+      cy: "Mae Terry yn cyfrannu at negeseuon y CRhA ac yn cadw teuluoedd yn wybodus am gyfleoedd sydd ar ddod.",
     },
   },
 ];
