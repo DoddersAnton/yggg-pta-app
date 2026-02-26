@@ -1,29 +1,47 @@
-import React from 'react'
-import { useLanguage } from '../providers/language-provider';
+"use client";
+
 import Image from "next/image";
 
+import { useLanguage } from "../providers/language-provider";
 
-interface OptionProps {
-    choice: string;
-}
-
-const Option: React.FC<OptionProps> = ({ choice }) => {
-    return (
-        <div className='flex items-center gap-2 max-h-6 min-h-6 min-w-'>
-            <Image width={32} height={14} src={choice == "en" ? "/english-flag.jpg": "/welsh-flag.jpg"} className='text-[12px]' alt={`{choice} flag`}/>
-            <div className='text-[10px]'>{choice == "en" ? "switch to welsh" : "newid i Saesneg"}</div>
-        </div>
-    );
-};
+const languageMap = {
+  en: {
+    short: "EN",
+    nextLabel: "CY",
+    srText: "Switch language to Welsh",
+    flag: "/english-flag.jpg",
+  },
+  cy: {
+    short: "CY",
+    nextLabel: "EN",
+    srText: "Newid iaith i Saesneg",
+    flag: "/welsh-flag.jpg",
+  },
+} as const;
 
 const LanguageToggle = () => {
-    const { language, toggleLanguage } = useLanguage();
+  const { language, toggleLanguage } = useLanguage();
+  const current = languageMap[language];
 
-    return (
-      <button onClick={toggleLanguage} className="p-2 border rounded min-w-42">
-        <Option  choice={language.toString()}/>
-      </button>
-    );
-  }
+  return (
+    <button
+      onClick={toggleLanguage}
+      className="inline-flex items-center gap-2 rounded-full border border-border bg-background/90 px-2.5 py-1.5 text-xs font-semibold leading-none shadow-sm transition-colors hover:border-primary/40 hover:text-primary"
+      aria-label={current.srText}
+      title={current.srText}
+      type="button"
+    >
+      <Image
+        width={18}
+        height={18}
+        src={current.flag}
+        className="h-[18px] w-[18px] rounded-full object-cover"
+        alt="Current language flag"
+      />
+      <span>{current.short}</span>
+      <span className="text-[10px] text-muted-foreground">→ {current.nextLabel}</span>
+    </button>
+  );
+};
 
-export default LanguageToggle
+export default LanguageToggle;

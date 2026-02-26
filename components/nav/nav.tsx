@@ -22,7 +22,7 @@ import {
 } from "@clerk/nextjs";
 
 import Logo from "./Logo";
-import {  Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import LanguageToggle from "./LanguageToggle";
 import { useLanguage } from "../providers/language-provider";
 import Image from "next/image";
@@ -177,23 +177,30 @@ export function Nav() {
                 animate={{ x: 0 }}
                 exit={{ x: "100%" }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="fixed inset-0 z-50 flex h-screen w-screen flex-col overflow-y-auto bg-white p-6 md:hidden"
+                className="fixed inset-0 z-50 flex h-screen w-screen flex-col overflow-y-auto bg-white px-5 pb-6 pt-5 md:hidden"
               >
-                <div className="mb-8 flex items-center justify-between">
+                <div className="mb-6 flex items-center justify-between">
                   <Logo />
                   <button onClick={closeMobileMenu} aria-label="Close menu">
                     <X className="h-7 w-7" />
                   </button>
                 </div>
 
-                <nav className="flex flex-col gap-4">
+                <div className="mb-5 flex items-center gap-2">
+                  <LanguageToggle />
+                  <div className="md:hidden">
+                    <CartDrawer />
+                  </div>
+                </div>
+
+                <nav className="flex flex-col gap-3">
                   {navLinks.map((link) => (
-                    <div key={link.titleEng} className="border-b pb-4">
+                    <div key={link.titleEng} className="rounded-xl border bg-muted/20 px-4 py-3">
                       {link.subLinks.length > 0 ? (
                         <div>
                           <button
                             onClick={() => toggleSubmenu(link.titleEng)}
-                            className="flex w-full items-center justify-between text-left text-base font-semibold"
+                            className="flex w-full items-center justify-between text-left text-base font-semibold leading-tight"
                           >
                             <span>{language === "cy" ? link.titleWal : link.titleEng}</span>
                             <motion.span
@@ -213,14 +220,14 @@ export function Nav() {
                                 animate={{ height: "auto", opacity: 1 }}
                                 exit={{ height: 0, opacity: 0 }}
                                 transition={{ duration: 0.2 }}
-                                className="mt-3 ml-3 flex flex-col gap-2"
+                                className="mt-3 ml-1 grid gap-2"
                               >
                                 {link.subLinks.map((subLink) => (
                                   <Link
                                     key={subLink.titleEng}
                                     href={subLink.href}
                                     onClick={closeMobileMenu}
-                                    className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                                    className="rounded-md px-2 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-background hover:text-primary"
                                   >
                                     {language === "cy" ? subLink.titleWal : subLink.titleEng}
                                   </Link>
@@ -230,7 +237,7 @@ export function Nav() {
                           </AnimatePresence>
                         </div>
                       ) : (
-                        <Link href={link.href} onClick={closeMobileMenu} className="text-base font-semibold">
+                        <Link href={link.href} onClick={closeMobileMenu} className="block py-1 text-base font-semibold leading-tight">
                           {language === "cy" ? link.titleWal : link.titleEng}
                         </Link>
                       )}
@@ -317,7 +324,7 @@ export function Nav() {
         </NavigationMenu>
 
         {/* Auth and Theme Toggle */}
-        <div className="flex items-center gap-4">
+        <div className="hidden items-center gap-4 md:flex">
           <LanguageToggle />
           <CartDrawer />
           {clerkEnabled ? (
@@ -333,18 +340,17 @@ export function Nav() {
             </>
           ) : null}
         
-          {/* Mobile Menu Toggle Button (Hidden on md+) */}
-          <button
-            className="md:hidden"
-            onClick={() => setIsMobileOpen(!isMobileOpen)}
-          >
-            {isMobileOpen ? (
-              <X className="h-6 w-6 p-0" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
-          </button>
         </div>
+
+        {/* Mobile Menu Toggle Button (Hidden on md+) */}
+        <button
+          className="md:hidden"
+          onClick={() => setIsMobileOpen(!isMobileOpen)}
+          aria-label="Open menu"
+          type="button"
+        >
+          <Menu className="h-6 w-6" />
+        </button>
       </div>
     </header>
   );
