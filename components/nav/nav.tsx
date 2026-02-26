@@ -61,7 +61,7 @@ const navLinks: {
         titleWal: "Ein Cenhadaeth",
         descriptionEng: "Find out more about the PTA and what we do",
         descriptionWal: "Darganfod mwy am y CRhA a beth rydym yn ei wneud",
-        href: "/about/overview",
+        href: "/about",
       },
       {
         titleEng: "Meet the PTA",
