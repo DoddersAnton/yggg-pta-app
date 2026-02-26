@@ -1,13 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import type { HTMLAttributes } from "react";
+import type { ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
 
-type MotionCardProps = HTMLAttributes<HTMLElement> & {
+type MotionCardProps = {
   as?: "article" | "div" | "section";
   delay?: number;
+  className?: string;
+  children: ReactNode;
 };
 
 const animationProps = {
@@ -17,12 +19,11 @@ const animationProps = {
   whileHover: { y: -6 },
 };
 
-export function MotionCard({ as = "article", delay = 0, className, children, ...props }: MotionCardProps) {
+export function MotionCard({ as = "article", delay = 0, className, children }: MotionCardProps) {
   const sharedProps = {
     ...animationProps,
     transition: { duration: 0.45, delay },
     className: cn("rounded-xl border bg-white p-6 shadow-sm", className),
-    ...props,
   };
 
   if (as === "div") {
