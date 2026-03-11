@@ -335,7 +335,15 @@ export function Nav() {
                 </div>
               </SignedOut>
               <SignedIn>
-                <UserButton />
+                <UserButton>
+                  <UserButton.MenuItems>
+                    <UserButton.Link
+                      href="/dashboard"
+                      label={language === "cy" ? "Fy Nigwyddiadau" : "My Events"}
+                      labelIcon={<span>🎟️</span>}
+                    />
+                  </UserButton.MenuItems>
+                </UserButton>
               </SignedIn>
             </>
           ) : null}
