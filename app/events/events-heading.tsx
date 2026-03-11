@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useLanguage } from "@/components/providers/language-provider";
 
 export default function EventsHeading() {
@@ -15,6 +16,12 @@ export default function EventsHeading() {
           ? "Porwch ein digwyddiadau CRhA i ddod, o weithgareddau teuluol i nosweithiau codi arian, a chadwch eich lle."
           : "Browse our upcoming PTA events, from family activities to fundraising nights, and reserve your place."}
       </p>
+      <Link
+        href="/dashboard"
+        className="mt-5 inline-flex rounded-md bg-purple-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-purple-700"
+      >
+        {language === "cy" ? "Fy Nigwyddiadau" : "My Events"}
+      </Link>
     </section>
   );
 }
