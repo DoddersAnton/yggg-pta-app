@@ -28,7 +28,7 @@ export default function TicketTape() {
   }, [inView, controls]);
 
   return (
-    <div ref={ref} className="overflow-hidden whitespace-nowrap bg-yellow-100 py-2 border-t border-b border-yellow-400">
+    <div ref={ref} className="overflow-hidden whitespace-nowrap bg-purple-900 py-2 border-t-2 border-b-2 border-black">
       <motion.div
         className="flex w-max"
         animate={controls}
@@ -48,14 +48,14 @@ export default function TicketTape() {
       >
         <div className="flex shrink-0 space-x-12 px-4">
           {[...messages, ...messages].map((msg, i) => (
-            <span key={`first-${i}`} className="text-sm font-semibold uppercase tracking-wide text-yellow-800">
+            <span key={`first-${i}`} className="text-sm font-black uppercase tracking-widest text-yellow-300">
               {msg}
             </span>
           ))}
         </div>
         <div className="flex shrink-0 space-x-12 px-4" aria-hidden="true">
           {[...messages, ...messages].map((msg, i) => (
-            <span key={`second-${i}`} className="text-sm font-semibold uppercase tracking-wide text-yellow-800">
+            <span key={`second-${i}`} className="text-sm font-black uppercase tracking-widest text-yellow-300">
               {msg}
             </span>
           ))}

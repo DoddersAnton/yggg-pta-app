@@ -16,14 +16,14 @@ const animationProps = {
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, amount: 0.25 },
-  whileHover: { y: -6 },
+  whileHover: { x: -3, y: -3 },
 };
 
 export function MotionCard({ as = "article", delay = 0, className, children }: MotionCardProps) {
   const sharedProps = {
     ...animationProps,
-    transition: { duration: 0.45, delay },
-    className: cn("rounded-xl border bg-white p-6 shadow-sm", className),
+    transition: { duration: 0.4, delay },
+    className: cn("border-2 border-black bg-white shadow-[6px_6px_0px_0px_#000]", className),
   };
 
   if (as === "div") {

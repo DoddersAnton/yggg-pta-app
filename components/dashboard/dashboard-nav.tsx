@@ -2,9 +2,8 @@
 
 import React, { JSX } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 import { useLanguage } from "../providers/language-provider";
 
 export default function DashboardNav({
@@ -21,34 +20,30 @@ export default function DashboardNav({
   const { language } = useLanguage();
 
   return (
-    <nav className="p-4 overflow-auto mb-4">
-      <ul className="flex gap-6 text-xs font-semibold justify-center">
-        <AnimatePresence>
-          {allLinks.map((link) => (
-            <motion.li whileTap={{ scale: 0.95 }} key={link.path}>
-              <Link
-                className={cn(
-                  "flex gap-1 flex-col items-center relative",
-                  pathname === link.path && "text-primary"
-                )}
-                href={link.path}
-              >
-                {link.icon}
-                {language == "cy" ? link.labelWal : link.labelEng}
-                {pathname === link.path ? (
-                  <motion.div
-                    className="h-[2px] w-full rounded-full absolute bg-primary z-0 left-0 -bottom-1"
-                    initial={{ scale: 0.5 }}
-                    animate={{ scale: 1 }}
-                    layoutId="underline"
-                    transition={{ type: "spring", stiffness: 35 }}
-                  />
-                ) : null}
-              </Link>
-            </motion.li>
-          ))}
-        </AnimatePresence>
-      </ul>
+    <nav className="bg-white border-b-2 border-black shadow-[0_4px_0px_0px_#000]">
+      <div className="max-w-6xl mx-auto px-4">
+        <ul className="flex overflow-x-auto">
+          {allLinks.map((link) => {
+            const isActive = pathname === link.path;
+            return (
+              <li key={link.path} className="shrink-0">
+                <Link
+                  href={link.path}
+                  className={cn(
+                    "flex items-center gap-2 px-5 py-3.5 text-xs font-black uppercase tracking-wide border-r-2 border-black transition-colors",
+                    isActive
+                      ? "bg-purple-700 text-white"
+                      : "text-gray-700 hover:bg-purple-50"
+                  )}
+                >
+                  {link.icon}
+                  {language === "cy" ? link.labelWal : link.labelEng}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </nav>
   );
 }

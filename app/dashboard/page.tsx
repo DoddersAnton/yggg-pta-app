@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation"
 
-export default function DashbboardPage() {
-  redirect("/dashboard/settings")
+export default function DashboardPage() {
+  redirect("/dashboard/orders")
 }

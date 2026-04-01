@@ -10,7 +10,7 @@ export default async function EventsPage() {
   });
 
   return (
-    <main className="pt-28 pb-14 px-6 bg-gradient-to-b from-purple-50 to-white min-h-screen">
+    <main className="pt-24 pb-16 px-6 bg-purple-50 min-h-screen">
       <div className="container mx-auto">
         <EventsHeading />
         <Events activeEvents={data} />

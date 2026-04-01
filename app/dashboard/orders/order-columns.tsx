@@ -13,7 +13,6 @@ import {
 import { useAction } from "next-safe-action/hooks"
 import { toast } from "sonner"
 import { deleteEvent } from "@/server/actions/delete-event"
-import { Badge } from "@/components/ui/badge"
 import { OrderSummaryPopup } from "./order-preview"
 
 
@@ -70,12 +69,17 @@ export const orderColumns: ColumnDef<OrderColumn>[] = [
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
-        const status = row.getValue("status")
-        if (status === "Paid")       {
-         return <div className="font-medium text-xs"><Badge variant="default">Paid</Badge></div>
-        } else {
-          return <div className="font-medium text-xs"><Badge variant="secondary">{status as string}</Badge></div>
-        }
+        const status = row.getValue("status") as string
+        const chipClass = status === "paid"
+          ? "bg-green-500 text-white border-black"
+          : status === "cancelled"
+          ? "bg-red-500 text-white border-black"
+          : "bg-gray-200 text-gray-700 border-black"
+        return (
+          <span className={`text-[10px] font-black uppercase tracking-wide px-2 py-0.5 border-2 shadow-[2px_2px_0px_0px_#000] ${chipClass}`}>
+            {status}
+          </span>
+        )
       },
   },
   {
