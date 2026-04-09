@@ -17,7 +17,7 @@ import { OrderSummaryPopup } from "./order-preview"
 
 
 export type OrderColumn = {
-    id: number; status: string; user: string; totalTickets: number; totalAmount: number; paymentRef: string; orderDate: Date;
+    id: number; status: string; user: string; totalTickets: number; totalAmount: number; paymentRef: string; orderRef: string; orderDate: Date;
 }
 
 
@@ -62,8 +62,17 @@ export const orderColumns: ColumnDef<OrderColumn>[] = [
     header: "ID",
   },
   {
-    accessorKey: "user",
-    header: "Name",
+    accessorKey: "orderRef",
+    header: "Order Ref",
+    cell: ({ row }) => {
+      const ref = row.getValue("orderRef") as string
+      if (!ref) return <span className="text-xs text-gray-400">—</span>
+      return (
+        <span className="bg-purple-100 text-purple-900 border-2 border-black text-[10px] font-black uppercase tracking-wide px-2 py-0.5 shadow-[2px_2px_0px_0px_#000]">
+          {ref}
+        </span>
+      )
+    },
   },
   {
     accessorKey: "status",

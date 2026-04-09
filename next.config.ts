@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "utfs.io" },
       { protocol: "https", hostname: "ufs.io" },
+      { protocol: "https", hostname: "*.ufs.sh" },
     ],
   }
 };

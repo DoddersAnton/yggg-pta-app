@@ -8,6 +8,7 @@ const actionClient = createSafeActionClient();
 import { currentUser } from "@clerk/nextjs/server";
 import { createOrderSchema } from "@/types/create-order-schema";
 import { eq, sql } from "drizzle-orm";
+import { createId } from "@paralleldrive/cuid2";
 
 export const createOrder = actionClient
   .schema(createOrderSchema)
@@ -28,11 +29,14 @@ export const createOrder = actionClient
         });
       }
 
+      const orderRef = `PTA-ORD-${createId().slice(0, 6).toUpperCase()}`;
+
       const order = await db
         .insert(orders)
         .values({
           status,
           paymentIntentID,
+          orderRef,
           totalAmount: total,
           userId: user.id,
           totalTickets: orderTickets.reduce((acc, ticket) => acc + ticket.quantity, 0),

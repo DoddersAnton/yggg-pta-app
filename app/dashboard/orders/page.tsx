@@ -14,7 +14,7 @@ export default async function Events() {
 
     if (!userId) redirect("/");
 
-    const orders =  await db.query.orders.findMany({
+    const orders = await db.query.orders.findMany({
             where: (orders, { eq }) => eq(orders.userId, userId),
             orderBy: (orders, { desc }) => [desc(orders.id)],
         });
@@ -22,8 +22,6 @@ export default async function Events() {
         const user = await db.query.users.findFirst({
             where: (users, { eq }) => eq(users.id, userId)
         });
-
-          //id: number; status: string; user: string; totalTickets: number; totalAmount: number; paymentRef: string; orderDate: Date;
 
           const orderData: OrderColumn[] = orders.map((order) => {
             return {
@@ -33,6 +31,7 @@ export default async function Events() {
                 totalTickets: order.totalTickets ?? 0,
                 totalAmount: order.totalAmount ?? 0,
                 paymentRef: order.paymentIntentID ?? "",
+                orderRef: order.orderRef ?? "",
                 orderDate: order.createdAt ?? new Date(),
             };
           });
