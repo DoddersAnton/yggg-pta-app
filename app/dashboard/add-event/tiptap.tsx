@@ -39,6 +39,7 @@ const Tiptap = ({ val }: { val: string }) => {
 
   useEffect(() => {
     if (editor?.isEmpty) editor.commands.setContent(val)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [val])
 
   return (
