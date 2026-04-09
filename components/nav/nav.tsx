@@ -182,9 +182,27 @@ export function Nav() {
 
                 <div className="mb-5 flex items-center gap-3">
                   <LanguageToggle />
-                  <div className="md:hidden">
-                    <CartDrawer />
-                  </div>
+                  <CartDrawer />
+                  {clerkEnabled && (
+                    <>
+                      <SignedOut>
+                        <div className="inline-block bg-yellow-300 text-black font-black text-xs uppercase tracking-wide px-3 py-1.5 border-2 border-black shadow-[2px_2px_0px_0px_#000] cursor-pointer">
+                          <SignInButton />
+                        </div>
+                      </SignedOut>
+                      <SignedIn>
+                        <UserButton>
+                          <UserButton.MenuItems>
+                            <UserButton.Link
+                              href="/dashboard"
+                              label={language === "cy" ? "Fy Nigwyddiadau" : "My Events"}
+                              labelIcon={<span>🎟️</span>}
+                            />
+                          </UserButton.MenuItems>
+                        </UserButton>
+                      </SignedIn>
+                    </>
+                  )}
                 </div>
 
                 <nav className="flex flex-col gap-3">
@@ -237,26 +255,6 @@ export function Nav() {
                   ))}
                 </nav>
 
-                {clerkEnabled && (
-                  <div className="mt-6">
-                    <SignedOut>
-                      <div className="inline-block bg-yellow-300 text-black font-black text-sm uppercase tracking-wide px-5 py-2.5 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all cursor-pointer">
-                        <SignInButton />
-                      </div>
-                    </SignedOut>
-                    <SignedIn>
-                      <UserButton>
-                        <UserButton.MenuItems>
-                          <UserButton.Link
-                            href="/dashboard"
-                            label={language === "cy" ? "Fy Nigwyddiadau" : "My Events"}
-                            labelIcon={<span>🎟️</span>}
-                          />
-                        </UserButton.MenuItems>
-                      </UserButton>
-                    </SignedIn>
-                  </div>
-                )}
               </motion.aside>
             </>
           )}
@@ -346,15 +344,38 @@ export function Nav() {
           ) : null}
         </div>
 
-        {/* Mobile hamburger */}
-        <button
-          className="md:hidden text-white"
-          onClick={() => setIsMobileOpen(!isMobileOpen)}
-          aria-label="Open menu"
-          type="button"
-        >
-          <Menu className="h-6 w-6" />
-        </button>
+        {/* Mobile: cart + user + hamburger */}
+        <div className="flex items-center gap-3 md:hidden">
+          <CartDrawer />
+          {clerkEnabled && (
+            <>
+              <SignedOut>
+                <div className="inline-block bg-yellow-300 text-black font-black text-xs uppercase tracking-wide px-3 py-1.5 border-2 border-black shadow-[2px_2px_0px_0px_#000] cursor-pointer">
+                  <SignInButton />
+                </div>
+              </SignedOut>
+              <SignedIn>
+                <UserButton>
+                  <UserButton.MenuItems>
+                    <UserButton.Link
+                      href="/dashboard"
+                      label={language === "cy" ? "Fy Nigwyddiadau" : "My Events"}
+                      labelIcon={<span>🎟️</span>}
+                    />
+                  </UserButton.MenuItems>
+                </UserButton>
+              </SignedIn>
+            </>
+          )}
+          <button
+            className="text-white"
+            onClick={() => setIsMobileOpen(!isMobileOpen)}
+            aria-label="Open menu"
+            type="button"
+          >
+            <Menu className="h-6 w-6" />
+          </button>
+        </div>
       </div>
     </header>
   );
