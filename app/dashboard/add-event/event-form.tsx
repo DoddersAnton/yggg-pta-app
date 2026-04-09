@@ -2,7 +2,6 @@
 
 import { useForm } from "react-hook-form";
 import { EventSchema, zEventSchema } from "@/types/event-schema";
-import { DateTimePicker } from "@/components/ui/datetime-picker";
 import { useAction } from "next-safe-action/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
@@ -210,7 +209,30 @@ export default function EventForm() {
                   <FormItem>
                     <FormLabel className={fieldLabel}>Event Start</FormLabel>
                     <FormControl>
-                      <DateTimePicker value={field.value} onChange={field.onChange} />
+                      <div className="flex gap-2">
+                        <input
+                          type="date"
+                          className="flex-1 h-10 px-3 border-2 border-black bg-white text-sm font-semibold shadow-[2px_2px_0px_0px_#000] focus:outline-none focus:border-purple-600"
+                          value={field.value ? new Date(field.value).toLocaleDateString("en-CA") : ""}
+                          onChange={(e) => {
+                            const date = field.value ? new Date(field.value) : new Date();
+                            const [y, m, d] = e.target.value.split("-").map(Number);
+                            date.setFullYear(y, m - 1, d);
+                            field.onChange(new Date(date));
+                          }}
+                        />
+                        <input
+                          type="time"
+                          className="w-28 h-10 px-3 border-2 border-black bg-white text-sm font-semibold shadow-[2px_2px_0px_0px_#000] focus:outline-none focus:border-purple-600"
+                          value={field.value ? `${String(new Date(field.value).getHours()).padStart(2,"0")}:${String(new Date(field.value).getMinutes()).padStart(2,"0")}` : ""}
+                          onChange={(e) => {
+                            const date = field.value ? new Date(field.value) : new Date();
+                            const [h, m] = e.target.value.split(":").map(Number);
+                            date.setHours(h, m);
+                            field.onChange(new Date(date));
+                          }}
+                        />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -224,7 +246,30 @@ export default function EventForm() {
                   <FormItem>
                     <FormLabel className={fieldLabel}>Event End</FormLabel>
                     <FormControl>
-                      <DateTimePicker value={field.value} onChange={field.onChange} />
+                      <div className="flex gap-2">
+                        <input
+                          type="date"
+                          className="flex-1 h-10 px-3 border-2 border-black bg-white text-sm font-semibold shadow-[2px_2px_0px_0px_#000] focus:outline-none focus:border-purple-600"
+                          value={field.value ? new Date(field.value).toLocaleDateString("en-CA") : ""}
+                          onChange={(e) => {
+                            const date = field.value ? new Date(field.value) : new Date();
+                            const [y, m, d] = e.target.value.split("-").map(Number);
+                            date.setFullYear(y, m - 1, d);
+                            field.onChange(new Date(date));
+                          }}
+                        />
+                        <input
+                          type="time"
+                          className="w-28 h-10 px-3 border-2 border-black bg-white text-sm font-semibold shadow-[2px_2px_0px_0px_#000] focus:outline-none focus:border-purple-600"
+                          value={field.value ? `${String(new Date(field.value).getHours()).padStart(2,"0")}:${String(new Date(field.value).getMinutes()).padStart(2,"0")}` : ""}
+                          onChange={(e) => {
+                            const date = field.value ? new Date(field.value) : new Date();
+                            const [h, m] = e.target.value.split(":").map(Number);
+                            date.setHours(h, m);
+                            field.onChange(new Date(date));
+                          }}
+                        />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

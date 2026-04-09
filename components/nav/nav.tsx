@@ -174,9 +174,9 @@ export function Nav() {
                 className="fixed inset-0 z-50 flex h-screen w-screen flex-col overflow-y-auto bg-white border-l-2 border-black px-5 pb-6 pt-5 md:hidden"
               >
                 <div className="mb-6 flex items-center justify-between border-b-2 border-black pb-4">
-                  <Logo />
+                  <Logo textClassName="text-black" />
                   <button onClick={closeMobileMenu} aria-label="Close menu">
-                    <X className="h-7 w-7" />
+                    <X className="h-7 w-7 text-black" />
                   </button>
                 </div>
 

@@ -65,6 +65,8 @@ export default function EventDetail({ activeEvent }: IEvent) {
                   title={activeEvent.name}
                   price={activeEvent.price}
                   image={activeEvent.imgUrl ?? "/party.png"}
+                  startDate={activeEvent.startDate}
+                  remainingCapacity={activeEvent.remainingCapacity}
                 />
               </div>
             </div>
