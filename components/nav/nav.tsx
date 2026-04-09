@@ -171,12 +171,12 @@ export function Nav() {
                 animate={{ x: 0 }}
                 exit={{ x: "100%" }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="fixed inset-0 z-50 flex h-screen w-screen flex-col overflow-y-auto bg-white border-l-2 border-black px-5 pb-6 pt-5 md:hidden"
+                className="fixed inset-0 z-50 flex h-screen w-screen flex-col overflow-y-auto bg-purple-900 border-l-2 border-black px-5 pb-6 pt-5 md:hidden"
               >
                 <div className="mb-6 flex items-center justify-between border-b-2 border-black pb-4">
-                  <Logo textClassName="text-black" />
+                  <Logo />
                   <button onClick={closeMobileMenu} aria-label="Close menu">
-                    <X className="h-7 w-7 text-black" />
+                    <X className="h-7 w-7 text-white" />
                   </button>
                 </div>
 
@@ -189,12 +189,12 @@ export function Nav() {
 
                 <nav className="flex flex-col gap-3">
                   {navLinks.map((link) => (
-                    <div key={link.titleEng} className="border-2 border-black bg-purple-50 px-4 py-3 shadow-[3px_3px_0px_0px_#000]">
+                    <div key={link.titleEng} className="border-2 border-black bg-purple-800 px-4 py-3 shadow-[3px_3px_0px_0px_#000]">
                       {link.subLinks.length > 0 ? (
                         <div>
                           <button
                             onClick={() => toggleSubmenu(link.titleEng)}
-                            className="flex w-full items-center justify-between text-left text-base font-black uppercase tracking-wide"
+                            className="flex w-full items-center justify-between text-left text-base font-black uppercase tracking-wide text-white"
                           >
                             <span>{language === "cy" ? link.titleWal : link.titleEng}</span>
                             <motion.span
@@ -219,7 +219,7 @@ export function Nav() {
                                     key={subLink.titleEng}
                                     href={subLink.href}
                                     onClick={closeMobileMenu}
-                                    className="border-l-4 border-purple-600 pl-3 py-1 text-sm font-semibold text-gray-700 hover:text-purple-700"
+                                    className="border-l-4 border-yellow-300 pl-3 py-1 text-sm font-semibold text-purple-200 hover:text-white"
                                   >
                                     {language === "cy" ? subLink.titleWal : subLink.titleEng}
                                   </Link>
@@ -229,7 +229,7 @@ export function Nav() {
                           </AnimatePresence>
                         </div>
                       ) : (
-                        <Link href={link.href} onClick={closeMobileMenu} className="block text-base font-black uppercase tracking-wide">
+                        <Link href={link.href} onClick={closeMobileMenu} className="block text-base font-black uppercase tracking-wide text-white">
                           {language === "cy" ? link.titleWal : link.titleEng}
                         </Link>
                       )}
@@ -240,7 +240,7 @@ export function Nav() {
                 {clerkEnabled && (
                   <div className="mt-6">
                     <SignedOut>
-                      <div className="inline-block bg-yellow-300 text-black font-black text-sm uppercase tracking-wide px-5 py-2.5 border-2 border-black shadow-[3px_3px_0px_0px_#000]">
+                      <div className="inline-block bg-yellow-300 text-black font-black text-sm uppercase tracking-wide px-5 py-2.5 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all cursor-pointer">
                         <SignInButton />
                       </div>
                     </SignedOut>

@@ -8,9 +8,10 @@ type OrderData = Awaited<ReturnType<typeof getOrder>>
 
 type OrderSummaryPopupProps = {
   orderId: number
+  paymentRef?: string
 }
 
-export const OrderSummaryPopup = ({ orderId }: OrderSummaryPopupProps) => {
+export const OrderSummaryPopup = ({ orderId, paymentRef }: OrderSummaryPopupProps) => {
   const [order, setOrder] = useState<OrderData | null>(null)
   const [loading, setLoading] = useState(false)
 
@@ -76,11 +77,18 @@ export const OrderSummaryPopup = ({ orderId }: OrderSummaryPopupProps) => {
               ))}
             </ul>
 
-            <div className="flex items-center justify-between border-t-2 border-black bg-purple-50 px-5 py-3">
-              <span className="text-xs font-black uppercase tracking-wide">Total</span>
-              <span className="text-sm font-black text-purple-700">
-                {new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP" }).format(total)}
-              </span>
+            <div className="border-t-2 border-black bg-purple-50 px-5 py-3 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-black uppercase tracking-wide">Total</span>
+                <span className="text-sm font-black text-purple-700">
+                  {new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP" }).format(total)}
+                </span>
+              </div>
+              {paymentRef && (
+                <p className="text-[10px] font-medium text-gray-500 break-all">
+                  <span className="font-black uppercase tracking-wide text-black">Payment ref: </span>{paymentRef}
+                </p>
+              )}
             </div>
           </>
         )}

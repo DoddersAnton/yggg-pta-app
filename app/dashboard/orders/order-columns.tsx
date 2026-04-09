@@ -68,7 +68,7 @@ export const orderColumns: ColumnDef<OrderColumn>[] = [
       const ref = row.getValue("orderRef") as string
       if (!ref) return <span className="text-xs text-gray-400">—</span>
       return (
-        <span className="bg-purple-100 text-purple-900 border-2 border-black text-[10px] font-black uppercase tracking-wide px-2 py-0.5 shadow-[2px_2px_0px_0px_#000]">
+        <span className="bg-purple-100 text-purple-900 border-2 border-black text-xs font-black uppercase tracking-wide px-3 py-1 shadow-[2px_2px_0px_0px_#000] whitespace-nowrap">
           {ref}
         </span>
       )
@@ -126,21 +126,12 @@ export const orderColumns: ColumnDef<OrderColumn>[] = [
   },
 
  
-    {
-        accessorKey: "paymentRef",
-        header: "Payment Ref",
-        cell: ({ row }) => {
-        const paymentRef = row.getValue("paymentRef")
-        return <div className="font-medium text-xs">{paymentRef as string}</div>
-        },
-  },
   {
     accessorKey: "View",
     cell: ({ row }) => {
       const orderId = row.getValue("id") as number
-      return (
-        <OrderSummaryPopup orderId={orderId} /> // Assuming you have a component to show order details
-      )
+      const paymentRef = row.original.paymentRef
+      return <OrderSummaryPopup orderId={orderId} paymentRef={paymentRef} />
     }
   },
   {
