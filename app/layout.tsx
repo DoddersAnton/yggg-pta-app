@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import { neobrutalism } from "@clerk/themes";
 import { ThemeProvider } from "next-themes";
 
 import "./globals.css";
@@ -31,7 +32,11 @@ function AppProviders({ children }: { children: React.ReactNode }) {
     return <>{children}</>;
   }
 
-  return <ClerkProvider publishableKey={publishableKey}>{children}</ClerkProvider>;
+  return (
+    <ClerkProvider publishableKey={publishableKey} appearance={{ baseTheme: neobrutalism }}>
+      {children}
+    </ClerkProvider>
+  );
 }
 
 export default function RootLayout({

@@ -345,12 +345,12 @@ export function Nav() {
         </div>
 
         {/* Mobile: cart + user + hamburger */}
-        <div className="flex items-center gap-3 md:hidden">
+        <div className="flex items-center gap-2 md:hidden">
           <CartDrawer />
           {clerkEnabled && (
             <>
               <SignedOut>
-                <div className="inline-block bg-yellow-300 text-black font-black text-xs uppercase tracking-wide px-3 py-1.5 border-2 border-black shadow-[2px_2px_0px_0px_#000] cursor-pointer">
+                <div className="inline-block bg-yellow-300 text-black font-black text-[10px] uppercase tracking-wide px-2 py-1 border-2 border-black shadow-[2px_2px_0px_0px_#000] cursor-pointer leading-none">
                   <SignInButton />
                 </div>
               </SignedOut>
