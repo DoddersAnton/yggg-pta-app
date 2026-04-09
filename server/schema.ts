@@ -36,7 +36,7 @@ export const events = pgTable("events", {
     totalTickets: integer("total_tickets").default(0), // Sum of ticket quantities
     createdAt: timestamp("created_at").defaultNow(),
     paymentIntentID: varchar("payment_intent_id", { length: 255 }), // For Stripe integration
-    orderRef: varchar("order_ref", { length: 20 }).unique(),
+    orderRef: varchar("order_ref", { length: 20 }),
   });
 
   export const tickets = pgTable("tickets", {
