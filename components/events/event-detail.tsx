@@ -48,6 +48,7 @@ export default function EventDetail({ activeEvent }: IEvent) {
             <EventInformation
               price={activeEvent.price}
               location={activeEvent.location}
+              mapsUrl={activeEvent.mapsUrl}
               description={activeEvent.description ?? ""}
               startDate={activeEvent.startDate}
               endDate={activeEvent.endDate}

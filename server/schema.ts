@@ -18,6 +18,7 @@ export const events = pgTable("events", {
     updatedBy: varchar("updated_by", { length: 255 }).references(() => users.id),
     imgUrl: varchar("img_url_eng", { length: 255 }),
     imgUrlWel: varchar("img_url_wel", { length: 255 }),
+    mapsUrl: varchar("maps_url", { length: 500 }),
   });
 
   export const users = pgTable("users", {

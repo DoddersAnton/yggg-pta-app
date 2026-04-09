@@ -8,6 +8,7 @@ interface IEventInformation {
   startDate: Date;
   endDate: Date;
   location: string;
+  mapsUrl?: string | null;
   remainingCapacity: number;
   capacity: number;
 }
@@ -32,6 +33,7 @@ export default function EventInformation({
   endDate,
   remainingCapacity,
   location,
+  mapsUrl,
   capacity,
 }: IEventInformation) {
   return (
@@ -88,9 +90,22 @@ export default function EventInformation({
           <div className="bg-purple-100 border-b-2 border-black px-6 py-4">
             <p className="text-xs font-black uppercase tracking-widest text-purple-900">Event location</p>
           </div>
-          <div className="px-6 py-4 flex items-start gap-2 text-sm text-gray-800 font-medium">
-            <MapPin className="mt-0.5 h-4 w-4 text-purple-600 shrink-0" />
-            <span>{location ?? ""}</span>
+          <div className="px-6 py-4 space-y-3">
+            <div className="flex items-start gap-2 text-sm text-gray-800 font-medium">
+              <MapPin className="mt-0.5 h-4 w-4 text-purple-600 shrink-0" />
+              <span>{location ?? ""}</span>
+            </div>
+            {mapsUrl && (
+              <a
+                href={mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-purple-700 text-white font-black text-xs uppercase tracking-wide px-4 py-2 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all"
+              >
+                <MapPin className="h-3 w-3" />
+                View on Google Maps
+              </a>
+            )}
           </div>
         </div>
       </TabsContent>

@@ -30,10 +30,12 @@ const fieldInput =
 
 export default function EventForm() {
   const [imgUploading, setImgUploading] = useState(false);
+  const [imgEngName, setImgEngName] = useState<string | null>(null);
+  const [imgWelName, setImgWelName] = useState<string | null>(null);
 
   const form = useForm<zEventSchema>({
     resolver: zodResolver(EventSchema),
-    defaultValues: { name: "", description: "", price: 0 },
+    defaultValues: { name: "", description: "", price: 0, capacity: 50 },
     mode: "onChange",
   });
 
@@ -60,6 +62,7 @@ export default function EventForm() {
         form.setValue("location", data.success.location ?? "");
         form.setValue("image", data.success.imgUrl ?? "");
         form.setValue("imageWel", data.success.imgUrlWel ?? "");
+        form.setValue("mapsUrl", data.success.mapsUrl ?? "");
       }
     }
   };
@@ -71,12 +74,16 @@ export default function EventForm() {
 
   const { execute, status } = useAction(createEvent, {
     onSuccess: (data) => {
+      toast.dismiss();
       if (data.data?.error) {
         toast.error(data.data.error);
         router.push("/dashboard/events");
         return;
       }
-      if (data.data?.success) toast.success(data.data.success);
+      if (data.data?.success) {
+        toast.success(data.data.success);
+        router.push("/dashboard/events");
+      }
     },
     onExecute: () => {
       toast.loading(editMode ? "Editing Event…" : "Creating Event…");
@@ -277,21 +284,37 @@ export default function EventForm() {
               />
             </div>
 
-            {/* Location */}
-            <FormField
-              control={form.control}
-              name="location"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className={fieldLabel}>Location</FormLabel>
-                  <FormControl>
-                    <Input placeholder="e.g. School Hall, Llantrisant" className={fieldInput} {...field} />
-                  </FormControl>
-                  <FormDescription className="text-xs text-gray-500">Used to generate a maps link</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {/* Location + Maps URL */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <FormField
+                control={form.control}
+                name="location"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={fieldLabel}>Location</FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g. School Hall, Llantrisant" className={fieldInput} {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="mapsUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={fieldLabel}>Google Maps Link</FormLabel>
+                    <FormControl>
+                      <Input placeholder="https://maps.google.com/..." className={fieldInput} {...field} />
+                    </FormControl>
+                    <FormDescription className="text-xs text-gray-500">Paste a Google Maps share link</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             {/* Images */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -309,13 +332,15 @@ export default function EventForm() {
                     <UploadDropzone
                       className="ut-button:rounded-none ut-button:bg-purple-700 ut-button:font-black ut-button:text-xs ut-button:uppercase ut-button:tracking-wide ut-button:border-2 ut-button:border-black ut-label:hidden ut-allowed-content:hidden border-2 border-dashed border-black"
                       endpoint="imgUploader"
+                      onBeforeUploadBegin={(files) => { setImgEngName(files[0]?.name ?? null); return files; }}
                       onUploadBegin={() => setImgUploading(true)}
                       onUploadError={(error) => {
                         form.setError("image", { type: "validate", message: error.message });
                         setImgUploading(false);
+                        setImgEngName(null);
                       }}
                       onClientUploadComplete={(res) => {
-                        form.setValue("image", res[0].url!);
+                        form.setValue("image", res[0].ufsUrl);
                         setImgUploading(false);
                       }}
                       content={{
@@ -324,6 +349,11 @@ export default function EventForm() {
                         },
                       }}
                     />
+                    {imgEngName && !form.getValues("image") && (
+                      <p className="text-[10px] font-black uppercase tracking-wide text-purple-700 mt-1">
+                        Uploading: {imgEngName}
+                      </p>
+                    )}
                     <FormControl>
                       <Input type="hidden" disabled={status === "executing"} {...field} />
                     </FormControl>
@@ -346,13 +376,15 @@ export default function EventForm() {
                     <UploadDropzone
                       className="ut-button:rounded-none ut-button:bg-purple-700 ut-button:font-black ut-button:text-xs ut-button:uppercase ut-button:tracking-wide ut-button:border-2 ut-button:border-black ut-label:hidden ut-allowed-content:hidden border-2 border-dashed border-black"
                       endpoint="imgUploader"
+                      onBeforeUploadBegin={(files) => { setImgWelName(files[0]?.name ?? null); return files; }}
                       onUploadBegin={() => setImgUploading(true)}
                       onUploadError={(error) => {
                         form.setError("imageWel", { type: "validate", message: error.message });
                         setImgUploading(false);
+                        setImgWelName(null);
                       }}
                       onClientUploadComplete={(res) => {
-                        form.setValue("imageWel", res[0].url!);
+                        form.setValue("imageWel", res[0].ufsUrl);
                         setImgUploading(false);
                       }}
                       content={{
@@ -361,6 +393,11 @@ export default function EventForm() {
                         },
                       }}
                     />
+                    {imgWelName && !form.getValues("imageWel") && (
+                      <p className="text-[10px] font-black uppercase tracking-wide text-purple-700 mt-1">
+                        Uploading: {imgWelName}
+                      </p>
+                    )}
                     <FormControl>
                       <Input type="hidden" disabled={status === "executing"} {...field} />
                     </FormControl>

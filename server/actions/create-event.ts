@@ -12,7 +12,7 @@ import { currentUser } from "@clerk/nextjs/server";
 
 export const createEvent = actionClient
 .schema(EventSchema)
-.action(async ({ parsedInput: { name, description, id, price, capacity, startDate, endDate, location, image, imageWel } }) => {
+.action(async ({ parsedInput: { name, description, id, price, capacity, startDate, endDate, location, image, imageWel, mapsUrl } }) => {
     try {
 
       const user = await currentUser();
@@ -47,7 +47,7 @@ export const createEvent = actionClient
 
         const editedEvent = await db
           .update(events)
-          .set({ description, price, name, capacity, startDate, endDate, updatedBy: user.id, location, imgUrl: image ?? "/party.png", imgUrlWel: imageWel ?? "/party.png"  })
+          .set({ description, price, name, capacity, startDate, endDate, updatedBy: user.id, location, imgUrl: image ?? "/party.png", imgUrlWel: imageWel ?? "/party.png", mapsUrl: mapsUrl ?? null })
           .where(eq(events.id, id))
           .returning();
 
@@ -67,8 +67,9 @@ export const createEvent = actionClient
           remainingCapacity: capacity,
           createdBy: user.id,
           description,
-          imgUrl: image ?? "/party.png", 
-          imgUrlWel: imageWel ?? "/party.png" 
+          imgUrl: image ?? "/party.png",
+          imgUrlWel: imageWel ?? "/party.png",
+          mapsUrl: mapsUrl ?? null,
         })
         .returning();
 

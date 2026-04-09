@@ -13,6 +13,7 @@ export const EventSchema = z.object({
   capacity: z.coerce.number().positive(),
   image: z.string().optional(),
   imageWel: z.string().optional(),
+  mapsUrl: z.string().optional(),
   price: z.coerce.number().positive(),
 });
 
