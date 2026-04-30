@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { integer, pgTable, serial, timestamp, varchar,  real } from "drizzle-orm/pg-core";
+import { integer, pgTable, serial, timestamp, varchar, real } from "drizzle-orm/pg-core";
 
 
 
@@ -47,6 +47,15 @@ export const events = pgTable("events", {
     price: real("price").notNull(), // Store price at time of purchase
     createdAt: timestamp("created_at").defaultNow(),
     ticketHolderName: varchar("ticket_holder_name", { length: 255 }), // Optional field for ticket holder name
+  });
+
+  export const fundraising = pgTable("fundraising", {
+    id: serial("id").primaryKey(),
+    label: varchar("label", { length: 255 }).notNull(),
+    type: varchar("type", { length: 50 }).notNull(), // 'income' | 'expenditure'
+    year: integer("year").notNull(),
+    amount: integer("amount").notNull(), // stored in pence
+    createdAt: timestamp("created_at").defaultNow(),
   });
 
   export const ordersRelations = relations(orders, ({ one, many }) => ({

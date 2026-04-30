@@ -1,6 +1,6 @@
 import DashboardNav from "@/components/dashboard/dashboard-nav";
 import { checkRole } from "@/utils/roles";
-import { BarChart, Package, PenSquare, Ticket } from "lucide-react";
+import { BarChart, Package, PenSquare, PoundSterling, Ticket } from "lucide-react";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const isAdmin = await checkRole("admin");
@@ -33,6 +33,12 @@ export default async function DashboardLayout({ children }: { children: React.Re
           labelWal: "Rheoli Digwyddiadau",
           path: "/dashboard/events",
           icon: <Package size={15} />,
+        },
+        {
+          labelEng: "Fundraising Data",
+          labelWal: "Data Codi Arian",
+          path: "/dashboard/fundraising",
+          icon: <PoundSterling size={15} />,
         },
       ]
     : [];

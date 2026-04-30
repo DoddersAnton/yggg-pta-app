@@ -182,6 +182,7 @@ const doc = new Document({
         body("    7.1  Analytics"),
         body("    7.2  Add / Edit Event"),
         body("    7.3  Manage Events"),
+        body("    7.4  Fundraising Data"),
         body("8.  Key Functionality"),
         body("9.  Bilingual Content Reference"),
         pageBreak(),
@@ -217,6 +218,7 @@ const doc = new Document({
             tableRow(["File Uploads", "UploadThing (bilingual event images)"]),
             tableRow(["Styling", "Tailwind CSS + Shadcn/Radix UI components"]),
             tableRow(["State Management", "Zustand (cart, persisted to localStorage)"]),
+            tableRow(["Charts", "Recharts (fundraising breakdown chart)"]),
             tableRow(["Server Actions", "next-safe-action (Zod-validated mutations)"]),
             tableRow(["Hosting", "Vercel (assumed)"]),
           ],
@@ -246,6 +248,7 @@ const doc = new Document({
         bullet("/dashboard/analytics  — Revenue analytics"),
         bullet("/dashboard/add-event  — Create a new event"),
         bullet("/dashboard/events  — Manage existing events"),
+        bullet("/dashboard/fundraising  — Manage fundraising income/expenditure data"),
         pageBreak(),
 
         // ── 3. NAVIGATION ───────────────────────────────────────────────────
@@ -485,7 +488,12 @@ const doc = new Document({
         // 4.7 FUNDRAISING
         h2("4.7  Fundraising  (/fundraising)"),
         h3("Purpose"),
-        body("Communicates the three current fundraising priorities to parents and carers."),
+        body(
+          "Communicates the three current fundraising priorities to parents and carers. " +
+          "Also displays a live financial breakdown section (Income & Expenditure — Last 3 Years) " +
+          "populated from the fundraising database table, shown as a grouped bar chart and a detailed entry table. " +
+          "The breakdown section is only visible when data has been entered by an admin."
+        ),
 
         h3("Page Wording"),
         label("Fundraising", "Codi Arian"),
@@ -526,6 +534,15 @@ const doc = new Document({
           "Archwiliwch ein cyflawniadau cymunedol i weld beth sydd wedi'i ariannu hyd yma."
         ),
         bilingualBullet("View community achievements  (button)", "Gweld cyflawniadau cymunedol"),
+
+        h3("Financial Breakdown Section (dynamic)"),
+        body("Visible only when fundraising data exists in the database. Contains:"),
+        bullet("Section heading: Income & Expenditure — Last 3 Years / Incwm a Gwariant — 3 Blynedd Diwethaf"),
+        bullet("Grouped bar chart (Recharts): one bar pair per year — Income (purple) and Expenditure (yellow-amber)"),
+        bullet("Year filter tabs: All Years / individual years"),
+        bullet("Detail table: each entry listed by year with type badge (Income / Expenditure) and amount"),
+        bullet("Row totals per year showing income / expenditure side-by-side"),
+        bullet("All labels bilingual (English / Welsh)"),
         divider(),
 
         // 4.8 COMMUNITY ACHIEVEMENTS
@@ -705,6 +722,31 @@ const doc = new Document({
         h2("7.3  Manage Events  (/dashboard/events)"),
         h3("Purpose"),
         body("Lists all events with admin controls for editing, archiving, or deleting each event."),
+
+        h2("7.4  Fundraising Data  (/dashboard/fundraising)"),
+        h3("Purpose"),
+        body(
+          "Allows admins to enter, edit, and delete fundraising income and expenditure records for the last 3 years. " +
+          "This data powers the Financial Breakdown chart on the public Fundraising page."
+        ),
+        h3("Form Fields"),
+        new Table({
+          width: { size: 100, type: WidthType.PERCENTAGE },
+          rows: [
+            tableRow(["Field", "Notes"], true),
+            tableRow(["Event / Item Name", "Free text — e.g. 'Summer Disco' or 'Reading Books'"]),
+            tableRow(["Type", "Select: Income (Raised) or Expenditure (Spent)"]),
+            tableRow(["Year", "Integer — e.g. 2023, 2024, 2025"]),
+            tableRow(["Amount (£)", "Decimal pounds — stored as pence in the database"]),
+          ],
+        }),
+        new Paragraph({ spacing: { after: 100 } }),
+        h3("Features"),
+        bullet("Add Entry button opens an inline form card"),
+        bullet("Edit button pre-populates the form with the selected entry"),
+        bullet("Delete button removes the entry immediately with a toast confirmation"),
+        bullet("Year filter tabs to view entries by year or all years"),
+        bullet("Per-year summary row showing total income vs total expenditure"),
         pageBreak(),
 
         // ── 8. KEY FUNCTIONALITY ─────────────────────────────────────────────
@@ -717,7 +759,7 @@ const doc = new Document({
           rows: [
             tableRow(["Role", "Capabilities"], true),
             tableRow(["member (any signed-in user)", "Browse events, purchase tickets, view own orders"]),
-            tableRow(["admin", "All of the above plus: create/edit/delete events, view analytics"]),
+            tableRow(["admin", "All of the above plus: create/edit/delete events, view analytics, manage fundraising data"]),
           ],
         }),
         new Paragraph({ spacing: { after: 100 } }),
@@ -745,8 +787,16 @@ const doc = new Document({
         bullet("Events past their end date are automatically marked as Expired"),
         bullet("Event images are served in the user's selected language"),
 
+        h2("Fundraising Data Management"),
+        bullet("Admins enter income and expenditure records via the Fundraising Data admin page"),
+        bullet("Each record has a label (event/item name), type (income | expenditure), year, and amount"),
+        bullet("Amounts are stored in pence (integer) and displayed as pounds in the UI"),
+        bullet("Data powers the grouped bar chart on the public Fundraising page"),
+        bullet("Chart shows income (purple) vs expenditure (amber) per year using Recharts"),
+        bullet("Year filter tabs on both the admin and public pages for focused views"),
+
         h2("Data Layer"),
-        body("Four database tables:"),
+        body("Five database tables:"),
         new Table({
           width: { size: 100, type: WidthType.PERCENTAGE },
           rows: [
@@ -755,6 +805,7 @@ const doc = new Document({
             tableRow(["events", "id, name, description, price, capacity, startDate, endDate, location, mapsLink, imgUrl, imgUrlWel"]),
             tableRow(["orders", "id, userId, eventId, orderRef, status, totalAmount, createdAt"]),
             tableRow(["tickets", "id, orderId, eventId, ticketHolderName"]),
+            tableRow(["fundraising", "id, label, type ('income'|'expenditure'), year, amount (pence), createdAt"]),
           ],
         }),
         new Paragraph({ spacing: { after: 100 } }),
@@ -777,6 +828,11 @@ const doc = new Document({
             tableRow(["Reports & Documents", "Adroddiadau a Dogfennau"]),
             tableRow(["Orders", "Archebion"]),
             tableRow(["Analytics", "Dadansoddeg"]),
+            tableRow(["Financial Breakdown", "Dadansoddiad Ariannol"]),
+            tableRow(["Income", "Incwm"]),
+            tableRow(["Expenditure", "Gwariant"]),
+            tableRow(["All Years", "Pob Blwyddyn"]),
+            tableRow(["Income & Expenditure — Last 3 Years", "Incwm a Gwariant — 3 Blynedd Diwethaf"]),
             tableRow(["Tickets Available", "Tocynnau ar gael"]),
             tableRow(["Limited Tickets", "Tocynnau cyfyngedig"]),
             tableRow(["Sold Out", "Wedi gwerthu allan"]),
