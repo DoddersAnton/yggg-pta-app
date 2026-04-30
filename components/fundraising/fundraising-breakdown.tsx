@@ -6,9 +6,7 @@ import {
   Bar,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from "recharts";
 import { useLanguage } from "@/components/providers/language-provider";
@@ -16,6 +14,7 @@ import { useLanguage } from "@/components/providers/language-provider";
 type Entry = {
   id: number;
   label: string;
+  labelWel: string | null;
   type: string;
   year: number;
   amount: number; // pence
@@ -25,6 +24,8 @@ type Props = {
   entries: Entry[];
 };
 
+type ChartRow = { label: string; amount: number };
+
 function formatGBP(pence: number) {
   return new Intl.NumberFormat("en-GB", {
     style: "currency",
@@ -33,16 +34,60 @@ function formatGBP(pence: number) {
   }).format(pence / 100);
 }
 
-function CustomTooltip({ active, payload, label }: { active?: boolean; payload?: { name: string; value: number }[]; label?: string }) {
+function CustomTooltip({ active, payload }: { active?: boolean; payload?: { value: number }[]; label?: string }) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="border-2 border-black bg-white shadow-[4px_4px_0px_0px_#000] p-3 text-xs font-black uppercase">
-      <p className="mb-1">{label}</p>
-      {payload.map((p) => (
-        <p key={p.name} style={{ color: p.name === "Income" || p.name === "Incwm" ? "#7c3aed" : "#ca8a04" }}>
-          {p.name}: {formatGBP(p.value)}
-        </p>
-      ))}
+    <div className="border-2 border-black bg-white shadow-[4px_4px_0px_0px_#000] px-3 py-2 text-xs font-black uppercase tracking-wide">
+      {formatGBP(payload[0].value)}
+    </div>
+  );
+}
+
+function HorizontalChart({
+  data,
+  color,
+  totalLabel,
+}: {
+  data: ChartRow[];
+  color: string;
+  totalLabel: string;
+}) {
+  const total = data.reduce((s, r) => s + r.amount, 0);
+  const chartHeight = Math.max(120, data.length * 52 + 40);
+
+  return (
+    <div className="flex flex-col h-full">
+      <ResponsiveContainer width="100%" height={chartHeight}>
+        <BarChart
+          layout="vertical"
+          data={data}
+          margin={{ top: 4, right: 16, left: 0, bottom: 4 }}
+          barSize={22}
+        >
+          <XAxis
+            type="number"
+            tickFormatter={(v) => formatGBP(v)}
+            tick={{ fontSize: 10, fontWeight: 700 }}
+            axisLine={{ stroke: "#000" }}
+            tickLine={false}
+          />
+          <YAxis
+            type="category"
+            dataKey="label"
+            width={140}
+            tick={{ fontSize: 11, fontWeight: 700, fill: "#111" }}
+            axisLine={false}
+            tickLine={false}
+          />
+          <Tooltip content={<CustomTooltip />} cursor={{ fill: "#f3f4f6" }} />
+          <Bar dataKey="amount" fill={color} radius={0} stroke="#000" strokeWidth={1.5} />
+        </BarChart>
+      </ResponsiveContainer>
+
+      <div className="mt-2 px-2 flex items-center justify-between border-t-2 border-black pt-2">
+        <span className="text-[10px] font-black uppercase tracking-wide text-gray-500">{totalLabel}</span>
+        <span className="text-sm font-black" style={{ color }}>{formatGBP(total)}</span>
+      </div>
     </div>
   );
 }
@@ -50,25 +95,32 @@ function CustomTooltip({ active, payload, label }: { active?: boolean; payload?:
 export default function FundraisingBreakdown({ entries }: Props) {
   const { language } = useLanguage();
   const years = [...new Set(entries.map((e) => e.year))].sort();
-  const [selectedYear, setSelectedYear] = useState<number | null>(null);
+  const [selectedYear, setSelectedYear] = useState<number | "all">("all");
 
-  const incomeLabel = language === "cy" ? "Incwm" : "Income";
-  const expenditureLabel = language === "cy" ? "Gwariant" : "Expenditure";
+  const getLabel = (e: Entry) =>
+    language === "cy" && e.labelWel ? e.labelWel : e.label;
 
-  // Build chart data — one row per year
-  const chartData = years.map((year) => {
-    const yearEntries = entries.filter((e) => e.year === year);
-    const income = yearEntries.filter((e) => e.type === "income").reduce((s, e) => s + e.amount, 0);
-    const expenditure = yearEntries.filter((e) => e.type === "expenditure").reduce((s, e) => s + e.amount, 0);
-    return { year: String(year), [incomeLabel]: income, [expenditureLabel]: expenditure };
-  });
+  const filtered =
+    selectedYear === "all" ? entries : entries.filter((e) => e.year === selectedYear);
 
-  // Entries for the detail table
-  const tableEntries = selectedYear
-    ? entries.filter((e) => e.year === selectedYear)
-    : entries;
+  // Aggregate by label and sort highest first
+  const aggregate = (type: "income" | "expenditure"): ChartRow[] => {
+    const map = new Map<string, number>();
+    filtered
+      .filter((e) => e.type === type)
+      .forEach((e) => {
+        const key = getLabel(e);
+        map.set(key, (map.get(key) ?? 0) + e.amount);
+      });
+    return [...map.entries()]
+      .map(([label, amount]) => ({ label, amount }))
+      .sort((a, b) => b.amount - a.amount);
+  };
 
-  const tableByYear = selectedYear ? [selectedYear] : years;
+  const incomeData = aggregate("income");
+  const expenditureData = aggregate("expenditure");
+
+  const hasData = incomeData.length > 0 || expenditureData.length > 0;
 
   return (
     <section className="space-y-6">
@@ -82,45 +134,17 @@ export default function FundraisingBreakdown({ entries }: Props) {
         </h2>
         <p className="text-sm text-gray-700 mt-1 border-l-4 border-purple-500 pl-3">
           {language === "cy"
-            ? "Cymhariaeth o arian a godwyd ac a wariwyd ym mhob blwyddyn."
-            : "A comparison of money raised and spent each year."}
+            ? "Cymhariaeth o arian a godwyd ac a wariwyd."
+            : "A comparison of money raised and money spent."}
         </p>
       </div>
 
-      {/* Chart */}
-      <div className="border-2 border-black bg-white shadow-[6px_6px_0px_0px_#000] p-6">
-        <ResponsiveContainer width="100%" height={280}>
-          <BarChart data={chartData} margin={{ top: 4, right: 8, left: 16, bottom: 4 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-            <XAxis
-              dataKey="year"
-              tick={{ fontSize: 12, fontWeight: 800, textTransform: "uppercase" }}
-              axisLine={{ stroke: "#000" }}
-              tickLine={false}
-            />
-            <YAxis
-              tickFormatter={(v) => formatGBP(v)}
-              tick={{ fontSize: 11, fontWeight: 700 }}
-              axisLine={{ stroke: "#000" }}
-              tickLine={false}
-              width={72}
-            />
-            <Tooltip content={<CustomTooltip />} cursor={{ fill: "#f3f4f6" }} />
-            <Legend
-              wrapperStyle={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", paddingTop: 12 }}
-            />
-            <Bar dataKey={incomeLabel} fill="#7c3aed" stroke="#000" strokeWidth={2} radius={0} />
-            <Bar dataKey={expenditureLabel} fill="#ca8a04" stroke="#000" strokeWidth={2} radius={0} />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-
-      {/* Year filter tabs */}
+      {/* Year filter */}
       <div className="flex gap-2 flex-wrap">
         <button
-          onClick={() => setSelectedYear(null)}
+          onClick={() => setSelectedYear("all")}
           className={`text-xs font-black uppercase tracking-wide px-4 py-2 border-2 border-black transition-all ${
-            selectedYear === null
+            selectedYear === "all"
               ? "bg-purple-700 text-white shadow-[3px_3px_0px_0px_#000]"
               : "bg-white text-black hover:bg-purple-50 shadow-[2px_2px_0px_0px_#000]"
           }`}
@@ -142,80 +166,58 @@ export default function FundraisingBreakdown({ entries }: Props) {
         ))}
       </div>
 
-      {/* Breakdown table */}
-      <div className="border-2 border-black bg-white shadow-[6px_6px_0px_0px_#000] overflow-hidden">
-        <div className="bg-purple-700 border-b-2 border-black px-5 py-3">
-          <p className="text-white font-black text-xs uppercase tracking-wide">
-            {language === "cy" ? "Manylion" : "Entry Detail"}
+      {/* Back-to-back horizontal bar charts */}
+      {hasData ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 border-2 border-black bg-white shadow-[6px_6px_0px_0px_#000] overflow-hidden">
+          {/* Income — left */}
+          <div className="p-5 md:border-r-2 md:border-black border-b-2 md:border-b-0 border-black">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="inline-block w-3 h-3 border-2 border-black" style={{ background: "#7c3aed" }} />
+              <p className="text-xs font-black uppercase tracking-widest text-purple-700">
+                {language === "cy" ? "Incwm (Codwyd)" : "Income (Raised)"}
+              </p>
+            </div>
+            {incomeData.length > 0 ? (
+              <HorizontalChart
+                data={incomeData}
+                color="#7c3aed"
+                totalLabel={language === "cy" ? "Cyfanswm Incwm" : "Total Income"}
+              />
+            ) : (
+              <p className="text-xs text-gray-400 font-black uppercase py-8 text-center">
+                {language === "cy" ? "Dim data" : "No data"}
+              </p>
+            )}
+          </div>
+
+          {/* Expenditure — right */}
+          <div className="p-5">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="inline-block w-3 h-3 border-2 border-black" style={{ background: "#ca8a04" }} />
+              <p className="text-xs font-black uppercase tracking-widest text-yellow-700">
+                {language === "cy" ? "Gwariant (Gwariannwyd)" : "Expenditure (Spent)"}
+              </p>
+            </div>
+            {expenditureData.length > 0 ? (
+              <HorizontalChart
+                data={expenditureData}
+                color="#ca8a04"
+                totalLabel={language === "cy" ? "Cyfanswm Gwariant" : "Total Expenditure"}
+              />
+            ) : (
+              <p className="text-xs text-gray-400 font-black uppercase py-8 text-center">
+                {language === "cy" ? "Dim data" : "No data"}
+              </p>
+            )}
+          </div>
+        </div>
+      ) : (
+        <div className="border-2 border-black bg-white p-12 text-center shadow-[4px_4px_0px_0px_#000]">
+          <p className="text-sm font-black text-gray-400 uppercase">
+            {language === "cy" ? "Dim data ar gael" : "No data available"}
           </p>
         </div>
-
-        {tableByYear.map((year) => {
-          const yearEntries = tableEntries.filter((e) => e.year === year);
-          const income = yearEntries.filter((e) => e.type === "income");
-          const expenditure = yearEntries.filter((e) => e.type === "expenditure");
-          const totalIncome = income.reduce((s, e) => s + e.amount, 0);
-          const totalExpenditure = expenditure.reduce((s, e) => s + e.amount, 0);
-
-          return (
-            <div key={year} className="border-b-2 border-black last:border-b-0">
-              <div className="bg-purple-50 border-b-2 border-black px-5 py-2">
-                <p className="font-black text-sm uppercase tracking-wide">{year}</p>
-              </div>
-
-              <table className="w-full text-xs">
-                <thead>
-                  <tr className="border-b border-gray-200">
-                    <th className="text-left font-black uppercase tracking-wide px-5 py-2 text-gray-500">
-                      {language === "cy" ? "Eitem" : "Item"}
-                    </th>
-                    <th className="text-left font-black uppercase tracking-wide px-5 py-2 text-gray-500">
-                      {language === "cy" ? "Math" : "Type"}
-                    </th>
-                    <th className="text-right font-black uppercase tracking-wide px-5 py-2 text-gray-500">
-                      {language === "cy" ? "Swm" : "Amount"}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {income.map((e) => (
-                    <tr key={e.id} className="border-b border-gray-100">
-                      <td className="px-5 py-2 font-semibold">{e.label}</td>
-                      <td className="px-5 py-2">
-                        <span className="inline-block bg-purple-100 text-purple-800 border border-purple-300 px-2 py-0.5 text-[10px] font-black uppercase">
-                          {language === "cy" ? "Incwm" : "Income"}
-                        </span>
-                      </td>
-                      <td className="px-5 py-2 text-right font-black text-purple-700">{formatGBP(e.amount)}</td>
-                    </tr>
-                  ))}
-                  {expenditure.map((e) => (
-                    <tr key={e.id} className="border-b border-gray-100">
-                      <td className="px-5 py-2 font-semibold">{e.label}</td>
-                      <td className="px-5 py-2">
-                        <span className="inline-block bg-yellow-100 text-yellow-800 border border-yellow-300 px-2 py-0.5 text-[10px] font-black uppercase">
-                          {language === "cy" ? "Gwariant" : "Expenditure"}
-                        </span>
-                      </td>
-                      <td className="px-5 py-2 text-right font-black text-yellow-700">{formatGBP(e.amount)}</td>
-                    </tr>
-                  ))}
-                  <tr className="bg-gray-50 border-t-2 border-black">
-                    <td colSpan={2} className="px-5 py-2 font-black uppercase text-xs tracking-wide">
-                      {language === "cy" ? "Cyfanswm" : "Total"}
-                    </td>
-                    <td className="px-5 py-2 text-right">
-                      <span className="font-black text-purple-700">{formatGBP(totalIncome)}</span>
-                      <span className="text-gray-400 mx-1">/</span>
-                      <span className="font-black text-yellow-700">{formatGBP(totalExpenditure)}</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          );
-        })}
-      </div>
+      )}
     </section>
   );
 }

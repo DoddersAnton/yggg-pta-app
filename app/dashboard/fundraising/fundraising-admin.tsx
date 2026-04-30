@@ -23,6 +23,7 @@ import { Input } from "@/components/ui/input";
 type Entry = {
   id: number;
   label: string;
+  labelWel: string | null;
   type: string;
   year: number;
   amount: number; // pence
@@ -87,7 +88,7 @@ export default function FundraisingAdmin({ entries: initialEntries }: { entries:
   const [deleteTarget, setDeleteTarget] = useState<number | null>(null);
 
   function openAdd() {
-    form.reset({ label: "", type: "income", year: currentYear, amount: 0 });
+    form.reset({ label: "", labelWel: "", type: "income", year: currentYear, amount: 0 });
     setEditingId(null);
     setShowForm(true);
   }
@@ -96,16 +97,17 @@ export default function FundraisingAdmin({ entries: initialEntries }: { entries:
     form.reset({
       id: entry.id,
       label: entry.label,
+      labelWel: entry.labelWel ?? "",
       type: entry.type as "income" | "expenditure",
       year: entry.year,
-      amount: entry.amount / 100, // convert pence → pounds for the form
+      amount: entry.amount / 100,
     });
     setEditingId(entry.id);
     setShowForm(true);
   }
 
   function resetForm() {
-    form.reset({ label: "", type: "income", year: currentYear, amount: 0 });
+    form.reset({ label: "", labelWel: "", type: "income", year: currentYear, amount: 0 });
     setEditingId(null);
     setShowForm(false);
   }
@@ -170,26 +172,43 @@ export default function FundraisingAdmin({ entries: initialEntries }: { entries:
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-5">
-                {/* Label */}
-                <div className="sm:col-span-2">
-                  <FormField
-                    control={form.control}
-                    name="label"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className={fieldLabel}>Event / Item Name</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="e.g. Summer Disco, Reading Books"
-                            className={fieldInput}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                {/* Label (English) */}
+                <FormField
+                  control={form.control}
+                  name="label"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className={fieldLabel}>Event / Item Name (English)</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="e.g. Summer Disco, Reading Books"
+                          className={fieldInput}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Label (Welsh) */}
+                <FormField
+                  control={form.control}
+                  name="labelWel"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className={fieldLabel}>Event / Item Name (Welsh)</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="e.g. Disco yr Haf, Llyfrau Darllen"
+                          className={fieldInput}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
                 {/* Type */}
                 <FormField
@@ -346,7 +365,12 @@ export default function FundraisingAdmin({ entries: initialEntries }: { entries:
                   <tbody>
                     {yearEntries.map((entry) => (
                       <tr key={entry.id} className="border-b border-gray-100 last:border-b-0">
-                        <td className="px-5 py-2.5 font-semibold">{entry.label}</td>
+                        <td className="px-5 py-2.5">
+                          <span className="font-semibold">{entry.label}</span>
+                          {entry.labelWel && (
+                            <span className="block text-[10px] text-gray-400 font-medium">{entry.labelWel}</span>
+                          )}
+                        </td>
                         <td className="px-5 py-2.5">
                           {entry.type === "income" ? (
                             <span className="inline-block bg-purple-100 text-purple-800 border border-purple-300 px-2 py-0.5 text-[10px] font-black uppercase">

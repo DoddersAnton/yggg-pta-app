@@ -12,7 +12,7 @@ const actionClient = createSafeActionClient();
 
 export const createFundraising = actionClient
   .schema(FundraisingSchema)
-  .action(async ({ parsedInput: { id, label, type, year, amount } }) => {
+  .action(async ({ parsedInput: { id, label, labelWel, type, year, amount } }) => {
     try {
       const isAdmin = await checkRole("admin");
       if (!isAdmin) return { error: "Unauthorised" };
@@ -23,7 +23,7 @@ export const createFundraising = actionClient
       if (id) {
         const updated = await db
           .update(fundraising)
-          .set({ label, type, year, amount: amountPence })
+          .set({ label, labelWel: labelWel ?? null, type, year, amount: amountPence })
           .where(eq(fundraising.id, id))
           .returning();
         revalidatePath("/dashboard/fundraising");
@@ -33,7 +33,7 @@ export const createFundraising = actionClient
 
       const created = await db
         .insert(fundraising)
-        .values({ label, type, year, amount: amountPence })
+        .values({ label, labelWel: labelWel ?? null, type, year, amount: amountPence })
         .returning();
       revalidatePath("/dashboard/fundraising");
       revalidatePath("/fundraising");

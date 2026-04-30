@@ -52,6 +52,7 @@ export const events = pgTable("events", {
   export const fundraising = pgTable("fundraising", {
     id: serial("id").primaryKey(),
     label: varchar("label", { length: 255 }).notNull(),
+    labelWel: varchar("label_wel", { length: 255 }),
     type: varchar("type", { length: 50 }).notNull(), // 'income' | 'expenditure'
     year: integer("year").notNull(),
     amount: integer("amount").notNull(), // stored in pence
