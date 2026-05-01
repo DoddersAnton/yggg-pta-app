@@ -130,7 +130,7 @@ export default function FundraisingBreakdown({ entries }: Props) {
           {language === "cy" ? "Dadansoddiad Ariannol" : "Financial Breakdown"}
         </span>
         <h2 className="mt-3 text-3xl font-black text-black">
-          {language === "cy" ? "Incwm a Gwariant — 3 Blynedd Diwethaf" : "Income & Expenditure — Last 3 Years"}
+          {language === "cy" ? "Codwyd a Gwariannwyd — 3 Blynedd Diwethaf" : "Raised & Spent — Last 3 Years"}
         </h2>
         <p className="text-sm text-gray-700 mt-1 border-l-4 border-purple-500 pl-3">
           {language === "cy"
@@ -174,14 +174,14 @@ export default function FundraisingBreakdown({ entries }: Props) {
             <div className="flex items-center gap-2 mb-4">
               <span className="inline-block w-3 h-3 border-2 border-black" style={{ background: "#7c3aed" }} />
               <p className="text-xs font-black uppercase tracking-widest text-purple-700">
-                {language === "cy" ? "Incwm (Codwyd)" : "Income (Raised)"}
+                {language === "cy" ? "Codwyd" : "Raised"}
               </p>
             </div>
             {incomeData.length > 0 ? (
               <HorizontalChart
                 data={incomeData}
                 color="#7c3aed"
-                totalLabel={language === "cy" ? "Cyfanswm Incwm" : "Total Income"}
+                totalLabel={language === "cy" ? "Cyfanswm Codwyd" : "Total Raised"}
               />
             ) : (
               <p className="text-xs text-gray-400 font-black uppercase py-8 text-center">
@@ -195,14 +195,14 @@ export default function FundraisingBreakdown({ entries }: Props) {
             <div className="flex items-center gap-2 mb-4">
               <span className="inline-block w-3 h-3 border-2 border-black" style={{ background: "#ca8a04" }} />
               <p className="text-xs font-black uppercase tracking-widest text-yellow-700">
-                {language === "cy" ? "Gwariant (Gwariannwyd)" : "Expenditure (Spent)"}
+                {language === "cy" ? "Gwariannwyd" : "Spent"}
               </p>
             </div>
             {expenditureData.length > 0 ? (
               <HorizontalChart
                 data={expenditureData}
                 color="#ca8a04"
-                totalLabel={language === "cy" ? "Cyfanswm Gwariant" : "Total Expenditure"}
+                totalLabel={language === "cy" ? "Cyfanswm Gwariannwyd" : "Total Spent"}
               />
             ) : (
               <p className="text-xs text-gray-400 font-black uppercase py-8 text-center">
